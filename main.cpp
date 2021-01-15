@@ -44,7 +44,7 @@ struct Dijkstra{
             for(int v,nxt = grap.head[u]; nxt; nxt = grap.e[nxt].from){
                 v = grap.e[nxt].to;
                 if(dis[v] > grap.e[nxt].w + dis[u]){
-                    dis[v] = g.e[nxt].w + dis[u];
+                    dis[v] = grap.e[nxt].w + dis[u];
                     if(!vis[v]){
                         vis[v] = 1;
                         q.push((Node){v,dis[v]});
