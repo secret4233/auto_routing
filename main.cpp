@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
-using namespace std;
+
+using namespace std;    
+
+
 
 const int maxn = 200 + 10;          //点数
 const int maxm = 200 * 200 + 10;    //边数
@@ -11,8 +14,9 @@ struct Grap{
         double w;
     }e[maxm];
     inline void add(int u,int v,double w){
-        e[++tot].from = u;
+        e[++tot].from = head[u];
         e[tot].to = v;  e[tot].w = w;
+        head[u] = tot;
     } 
     inline void dbadd(int u,int v,double w){
         add(u,v,w); add(v,u,w);
@@ -125,6 +129,13 @@ int main(){
         grap.dbadd(u,v,getErDistance(dict[u],dict[v]));
     }
     getHx.dijkstra(n);
+    
+    
+    // for(int i = 1; i <= n; ++i){
+    //     printf("n-> %d distance: %f\n",i,getHx.dis[i]);
+    // 
+
+
     getAns.aStar(1,n,getHx.dis);
     if(getAns.ans != -1)    printf("%.2f\n",getAns.ans);
     else                    printf("-1\n");
