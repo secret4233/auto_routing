@@ -4,7 +4,7 @@
 		{
 			"type": "cppbuild",
 			"label": "C/C++: cpp build active file",
-			"command": "/usr/bin/cpp",
+			"command": "g++",
 			"args": [
 				"-g",
 				"${workspaceFolder}/main.cpp",
