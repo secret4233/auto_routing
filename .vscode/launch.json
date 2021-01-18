@@ -14,7 +14,7 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,    //是否显示控制台窗口
+            "externalConsole": false,    //是否显示控制台窗口
             "MIMode": "gdb",
             "setupCommands": [
                 {
