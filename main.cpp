@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "pso.h"
+#include "inc/pso.h"
 
 
 using namespace std;    
