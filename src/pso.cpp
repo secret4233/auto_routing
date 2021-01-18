@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+#include <Eigen/Core>  
+#include "pso.h"
 
 using namespace std;
 
@@ -12,7 +14,3 @@ struct PSO{
     double g_best;
 
 };
-int main(){
-    
-    return 0;
-}

@@ -7,7 +7,7 @@
 			"command": "/usr/bin/cpp",
 			"args": [
 				"-g",
-				"${file}",
+				"${workspaceFolder}/main.cpp",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}"
 			],
