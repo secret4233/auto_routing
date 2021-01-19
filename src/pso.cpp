@@ -1,6 +1,5 @@
 #include "pso.h"
 
-using namespace std;
 
 const int INF = 0x3f3f3f3f;
 const double pi = acos(-1.0);
@@ -10,5 +9,16 @@ struct PSO{
     double v_max,v_min,pos_max,pos_min;
     vector<double> pos,spd,p_best;
     double g_best;
+    Matrix<double, Dynamic, Dynamic> f_test;
+    Matrix<double, Dynamic, Dynamic> pos_mat;   
+
+    double calCost(double x){
+        double res = x * x + 1;
+        return res;
+    }
+
+    double init(){
+        
+    }
 
 };

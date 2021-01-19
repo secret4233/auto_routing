@@ -5,6 +5,7 @@
 #include <Eigen/Core> //todo 避免重复引用头文件 
 
 using namespace std;
+using namespace Eigen;
 
 struct PSO;
 
