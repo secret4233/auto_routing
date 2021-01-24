@@ -1,28 +1,11 @@
 #include <bits/stdc++.h>
 #include "inc/pso.h"
+#include "inc/grap.h"
 
 
 using namespace std;    
 
-const int maxn = 200 + 10;          //点数
-const int maxm = 200 * 200 + 10;    //边数
-
-struct Grap{
-    int head[maxn],tot;
-    struct edge{
-        int from,to;
-        double w;
-    }e[maxm];
-    inline void add(int u,int v,double w){
-        e[++tot].from = head[u];
-        e[tot].to = v;  e[tot].w = w;
-        head[u] = tot;
-    } 
-    inline void dbadd(int u,int v,double w){
-        add(u,v,w); add(v,u,w);
-    }
-}grap;
-
+Grap grap;
 struct Node{
     double x,y;
 }dict[maxn];
