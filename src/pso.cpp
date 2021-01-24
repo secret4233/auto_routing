@@ -1,4 +1,5 @@
 #include "pso.h"
+#include "grap.h"
 
 
 const int INF = 0x3f3f3f3f;
@@ -6,17 +7,19 @@ const double pi = acos(-1.0);
 struct PSO{
     //dim:维数,p_num:粒子数量,iters:迭代次数
     int dim,pNum,iters;
-    double v_max,v_min,pos_max,pos_min;
-    vector<double> pos,spd,pBest;
+    double v_max,v_min,pos_max,pos_min; //阈值范围
+    vector<double> pos,spd,pBest;   //pos:position,spd:speed;
     double gBest;
-    Matrix<double, Dynamic, Dynamic> fTest;
-    Matrix<double, Dynamic, Dynamic> posMat;   
+    Matrix<Matrix<double,2,2>, Dynamic, Dynamic> fTest;
+    Matrix<Matrix<double,2,2>, Dynamic, Dynamic> posMat;   
 
     double calCost(double x){
         double res = x * x + 1;
         return res;
     }
 
+
+    //初始化粒子
     double init(int _dim,int _pNum,int _iters = 100000){
         posMat.resize(_iters,pNum); posMat.fill(INF);
         fTest.resize(_iters,pNum);  fTest.fill(INF);            
@@ -39,13 +42,15 @@ struct PSO{
         gBest = posMat(minRow,minCol);// 初始话全局最优解
     }
 
+    //pso算法
     void psoAlgorithm(){
         static mt19937 rng;
         uniform_real_distribution<double> randNum(0,1);
         for(int step = 1; step <= iters; ++step){
+            double w = 0.9 - (double)step / iters * 0.5; 
             for(int i = 0; i < pNum; ++i){
-                spd[i] = 0.5 * spd[i]   + 2 * randNum(rng) * (pBest[i] - pos[i])
-                                        + 2 * randNum(rng) * (gBest - pos[i]);
+                spd[i] = w * spd[i] + 2 * randNum(rng) * (pBest[i] - pos[i])
+                                    + 2 * randNum(rng) * (gBest - pos[i]);
                 pos[i] = pos[i] + spd[i];
                 //越界处理
                 if (spd[i] < -2 || spd[i] > 4)
@@ -72,6 +77,8 @@ struct PSO{
 
 
 };
+
+//kruskal算法
 
 
 
