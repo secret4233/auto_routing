@@ -8,9 +8,9 @@ struct PSO{
     //dim:维数,p_num:粒子数量,iters:迭代次数
     int dim,pNum,iters;
     double v_max,v_min,pos_max,pos_min; //阈值范围
-    vector<double> pos,spd,pBest;   //pos:position,spd:speed;
+    vector<double> pos,spd,pBest;   //pos:position,spd:speed
     double gBest;
-    Matrix<Matrix<double,2,2>, Dynamic, Dynamic> fTest;
+    Matrix<Matrix<double,2,2>, Dynamic, Dynamic> fTest; //TODO 考虑自定义内部矩阵,然后重载比较函数?
     Matrix<Matrix<double,2,2>, Dynamic, Dynamic> posMat;   
 
     double calCost(double x){
@@ -39,7 +39,7 @@ struct PSO{
         }
         Index  minRow,minCol;
         fTest.row(0).minCoeff(&minRow,&minCol);
-        gBest = posMat(minRow,minCol);// 初始话全局最优解
+        gBest = posMat(minRow,minCol);// 初始化全局最优解
     }
 
     //pso算法
