@@ -17,7 +17,7 @@ struct PSO{
         return res;
     }
 
-    double init(int _dim,int _pNum,int _iters = 100000){
+    void init(int _dim,int _pNum,int _iters = 100000){
         posMat.resize(_iters,pNum); posMat.fill(INF);
         fTest.resize(_iters,pNum);  fTest.fill(INF);            
         static mt19937 rng;

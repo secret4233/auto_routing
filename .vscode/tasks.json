@@ -8,6 +8,11 @@
 			"args": [
 				"-g",
 				"${workspaceFolder}/main.cpp",
+				"${workspaceFolder}/src/**.cpp",
+				"-I",
+				"./inc",
+				"-llog4cplus",
+				"-lpthread",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}"
 			],
