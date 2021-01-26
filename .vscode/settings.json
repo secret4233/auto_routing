@@ -5,6 +5,8 @@
         "vector": "cpp",
         "type_traits": "cpp",
         "typeindex": "cpp",
-        "core": "cpp"
+        "core": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp"
     }
 }
