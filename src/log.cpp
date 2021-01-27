@@ -38,7 +38,7 @@ bool LogUtils::open_log(){
     _append->setName("file log");
 
     /* step 2: Instantiate a layout object */
-    string pattern = "[%p] [%d{%m/%d/%y %H:%M:%S}] [%l] - %m%n";
+    string pattern = "[%p] [%D{%m/%d/%y %H:%M:%S}] [%l] - %m%n";
 
     /* step 3: Attach the layout object to the appender */
     _append->setLayout(unique_ptr<Layout>(new PatternLayout(pattern))); 
