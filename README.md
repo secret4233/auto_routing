@@ -14,9 +14,13 @@ graph TD
     st --> pso[PSO算法]
     aStar -- 依赖于 --> Dijkstra
     pso -- 依赖于 --> Kruskal 
-````
+```
 
 
-### pso.c
+### log 模块
+    部分参考
+    https://www.cnblogs.com/oftenlin/p/9477947.html
+
+### pso算法
     此处代码实现参考
     https://blog.csdn.net/daaikuaichuan/article/details/81382794
