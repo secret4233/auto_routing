@@ -1,5 +1,5 @@
-#ifndef _GRAP_H
-#define _GRAP_H 
+#ifndef _GRAPH_H
+#define _GRAPH_H 
 
 #include <bits/stdc++.h>
 
