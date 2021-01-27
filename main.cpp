@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include "inc/pso.h"
-#include "inc/grap.h"
+#include "inc/graph.h"
 #include "inc/log.h"
 
 
