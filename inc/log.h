@@ -4,15 +4,12 @@
 #include <log4cplus/log4cplus.h>
 #include <time.h>
 using namespace std;
+using namespace log4cplus;
 
-class LogOutput{
-private:
-    log4cplus::Logger logMessage;
-public:
-    //log4cplus::SharedAppenderPtr LogInitConsole(string name);
-    log4cplus::Logger LogInitFile(string name);
-    void LogInfo(string formatString);
-};
+
+Logger logger;
+Logger LogInitFile(string name);
+
 
 
 
