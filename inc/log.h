@@ -1,17 +1,9 @@
 #ifndef _LOG_H
 #define _LOG_H
 
-#include "log4cplus/loglevel.h"
-#include "log4cplus/ndc.h"
-#include "log4cplus/logger.h"
-#include "log4cplus/configurator.h"
-#include "iomanip"
-#include "log4cplus/fileappender.h"
-#include "log4cplus/layout.h"
-#include <log4cplus/loggingmacros.h>
+#include <log4cplus/log4cplus.h>
 using namespace std;
 using namespace log4cplus;
-using namespace log4cplus::helpers;
 
 
 #define PATH_SIZE 1024
@@ -28,7 +20,6 @@ private:
     char _log_path[PATH_SIZE];
     char _log_name[PATH_SIZE << 1];
 public:
-    // 打开日志
     LogUtils();
     virtual ~LogUtils();
     bool open_log();
