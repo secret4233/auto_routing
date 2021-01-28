@@ -22,7 +22,7 @@ private:
 public:
     LogUtils();
     virtual ~LogUtils();
-    bool open_log();
+    bool logInit();
 
     // 获得日志实例
     static LogUtils& instance();

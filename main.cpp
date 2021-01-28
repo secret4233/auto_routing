@@ -9,6 +9,6 @@ using namespace std;
 
 int main(){
     LogUtils logger;
-    logger.open_log();
+    logger.logInit();
     logInfo("QAQ%d",233);
 }

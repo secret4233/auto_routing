@@ -30,7 +30,9 @@ LogUtils& LogUtils::instance(){
     return log;
 }
 
-bool LogUtils::open_log(){
+
+//日志初始化操作
+bool LogUtils::logInit(){
     int Log_level = 0;
 
     /* step 1: Instantiate an appender object */

@@ -2,6 +2,7 @@
 #define _GRAPH_H 
 
 #include <bits/stdc++.h>
+#include <log.h>
 
 using namespace std;
 
@@ -9,21 +10,21 @@ using namespace std;
 const int maxn = 200 + 10;          //点数
 const int maxm = 200 * 200 + 10;    //边数
 
-typedef struct GRAP{
+typedef struct graphEdge{
+    int from,u,v;
+    double w;
+}Edge;
+
+class Graph{
+private:
     int head[maxn],tot;
-    struct edge{
-        int from,to;
-        double w;
-    }e[maxm];
-    inline void add(int u,int v,double w){
-        e[++tot].from = head[u];
-        e[tot].to = v;  e[tot].w = w;
-        head[u] = tot;
-    } 
-    inline void dbadd(int u,int v,double w){
-        add(u,v,w); add(v,u,w);
-    }
-}Grap;
+    Edge e[maxm];
+public:
+    void add(int u,int v,double w); 
+    void dbadd(int u,int v,double w);
+    Edge *getFirstEdgeNode(int graphNode);
+    Edge *getNxtNode(const Edge &e);
+};
 
 
 
