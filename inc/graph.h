@@ -7,8 +7,8 @@
 using namespace std;
 
 
-const int maxn = 200 + 10;          //点数
-const int maxm = 200 * 200 + 10;    //边数
+const int MAX_VEC = 200 + 10;           //点数
+const int MAX_EDGE = 200 * 200 + 10;    //边数
 
 typedef struct graphEdge{
     int from,u,v;
@@ -17,9 +17,12 @@ typedef struct graphEdge{
 
 class Graph{
 private:
-    int head[maxn],tot;
-    Edge e[maxm];
+    int vecNum,edgeNum; 
+    int head[MAX_VEC];
+    Edge e[MAX_EDGE];
 public:
+    Graph(int _vecNum,int _edgeNum);
+    Graph(int _vecNum);
     void add(int u,int v,double w); 
     void dbadd(int u,int v,double w);
     Edge *getFirstEdgeNode(int graphNode);
