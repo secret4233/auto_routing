@@ -8,21 +8,21 @@ using namespace log4cplus;
 
 #define PATH_SIZE 1024
 //日志封装
-#define logDebug(...) LOG4CPLUS_DEBUG_FMT(LogUtils::_logger, __VA_ARGS__)
-#define logInfo(...) LOG4CPLUS_INFO_FMT(LogUtils::_logger, __VA_ARGS__)
-#define logWarn(...) LOG4CPLUS_WARN_FMT(LogUtils::_logger, __VA_ARGS__)
-#define logError(...) LOG4CPLUS_ERROR_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogDebug(...) LOG4CPLUS_DEBUG_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogInfo(...) LOG4CPLUS_INFO_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogWarn(...) LOG4CPLUS_WARN_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogError(...) LOG4CPLUS_ERROR_FMT(LogUtils::_logger, __VA_ARGS__)
 
 // 日志控制类，全局共用一个日志
 class LogUtils{
 private:
     //log文件路径及名称
-    char _log_path[PATH_SIZE];
-    char _log_name[PATH_SIZE << 1];
+    char logPath[PATH_SIZE];
+    char logName[PATH_SIZE << 1];
+    bool logInit();
 public:
     LogUtils();
     virtual ~LogUtils();
-    bool logInit();
 
     // 获得日志实例
     static LogUtils& instance();

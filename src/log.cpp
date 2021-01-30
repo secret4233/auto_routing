@@ -2,6 +2,7 @@
 #include <time.h>
 #include <memory>
 
+// 取得当前日期 格式:1900.1.1
 string getNowTime(){
     time_t setTime;
 	time(&setTime);
@@ -15,12 +16,12 @@ string getNowTime(){
 }
 
 
-
 Logger LogUtils::_logger = log4cplus::Logger::getInstance("main_log");
 
 LogUtils::LogUtils(){
-    snprintf(_log_path,sizeof(_log_path),  "%s", "./output");
-    snprintf(_log_name,sizeof(_log_name),  "%s/%s.%s", _log_path, getNowTime().c_str(), "log");
+    snprintf(logPath,sizeof(logPath),  "%s", "./output");
+    snprintf(logName,sizeof(logName),  "%s/%s.%s", logPath, getNowTime().c_str(), "log");
+    logInit();
 }
 
 LogUtils::~LogUtils(){}
@@ -36,7 +37,7 @@ bool LogUtils::logInit(){
     int Log_level = 0;
 
     /* step 1: Instantiate an appender object */
-    SharedAppenderPtr _append(new FileAppender(_log_name,ios_base::app));
+    SharedAppenderPtr _append(new FileAppender(logName,ios_base::app));
     _append->setName("file log");
 
     /* step 2: Instantiate a layout object */
