@@ -4,16 +4,21 @@
 
 ## 各模块划分
 1. 随机图生成模块
-2. 测试模块
-3. 日志模块
-3. 主程序模块
+2. 测试模块 
+3. 日志模块 
+3. 主程序模块 
 
 ```mermaid
 graph TD
-    st[图类] --> aStar[A*算法]
-    st --> pso[PSO算法]
+    graphClass[图类] --> randGraph[随机图生成]
+    randGraph --> aStar[A*算法]
+    randGraph --> pso[PSO算法]
     aStar -- 依赖于 --> Dijkstra
     pso -- 依赖于 --> Kruskal 
+
+    test[测试模块]
+
+
 ```
 
 
