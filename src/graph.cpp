@@ -8,7 +8,7 @@ Graph::Graph(int _vecNum,int _edgeNum):vecNum(_vecNum),edgeNum(_edgeNum){}
 Graph::Graph(int _vecNum):vecNum(_vecNum){}
 
 // 添加有向边
-void Graph::add(int u,int v,double w){
+void Graph::AddEdge(int u,int v,double w){
     e[++edgeNum].from = head[u];
     e[edgeNum].u = u;   e[edgeNum].v = v;  
     e[edgeNum].w = w;   head[u] = edgeNum;
@@ -16,14 +16,14 @@ void Graph::add(int u,int v,double w){
 
 
 // 无向图加边
-void Graph::dbadd(int u,int v,double w){
-    add(u,v,w); add(v,u,w);
+void Graph::DbAddEdge(int u,int v,double w){
+    AddEdge(u,v,w); AddEdge(v,u,w);
 }
 
 
 // graphNode: 节点的信息
 // 该函数取得某个节点的首条边
-Edge *Graph::getFirstEdgeNode(int graphNode){
+Edge *Graph::GetFirstEdgeNode(int graphNode){
     if(graphNode > vecNum){
         LogError("节点超出范围");
         return NULL;
@@ -34,7 +34,7 @@ Edge *Graph::getFirstEdgeNode(int graphNode){
 
 // edgeNode:边的信息
 // 该函数取得某个节点边的后继边
-Edge *Graph::getNxtNode(const Edge &edge){ 
+Edge *Graph::GetNxtNode(const Edge &edge){ 
     if(edge.from > edgeNum){
         LogError("边数不在预期范围内");
         return NULL;

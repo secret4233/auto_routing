@@ -23,10 +23,10 @@ private:
 public:
     Graph(int _vecNum,int _edgeNum);
     Graph(int _vecNum);
-    void add(int u,int v,double w); 
-    void dbadd(int u,int v,double w);
-    Edge *getFirstEdgeNode(int graphNode);
-    Edge *getNxtNode(const Edge &e);
+    void AddEdge(int u,int v,double w); 
+    void DbAddEdge(int u,int v,double w);
+    Edge *GetFirstEdgeNode(int graphNode);
+    Edge *GetNxtNode(const Edge &e);
 };
 
 
