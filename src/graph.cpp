@@ -34,12 +34,12 @@ Edge *Graph::GetFirstEdgeNode(int graphNode){
 
 // edgeNode:边的信息
 // 该函数取得某个节点边的后继边
-Edge *Graph::GetNxtNode(const Edge &edge){ 
-    if(edge.from > edgeNum){
+Edge *Graph::GetNxtNode(Edge *edge){ 
+    if(edge->from > edgeNum){
         LogError("边数不在预期范围内");
         return NULL;
     }
-    if(edge.from == 0)  return NULL;
+    if(edge->from == 0)  return NULL;
 
-    return &e[edge.from];
+    return &e[edge->from];
 }

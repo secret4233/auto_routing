@@ -2,7 +2,7 @@
 #define _GRAPH_H 
 
 #include <bits/stdc++.h>
-#include <log.h>
+#include "log.h"
 
 using namespace std;
 
@@ -13,6 +13,7 @@ const int MAX_EDGE = 200 * 200 + 10;    //边数
 typedef struct graphEdge{
     int from,u,v;
     double w;
+    int xAxis,yAxis;
 }Edge;
 
 class Graph{
@@ -26,7 +27,7 @@ public:
     void AddEdge(int u,int v,double w); 
     void DbAddEdge(int u,int v,double w);
     Edge *GetFirstEdgeNode(int graphNode);
-    Edge *GetNxtNode(const Edge &e);
+    Edge *GetNxtNode(Edge *edeg);
 };
 
 
