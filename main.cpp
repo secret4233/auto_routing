@@ -2,6 +2,7 @@
 #include "inc/pso.h"
 #include "inc/graph.h"
 #include "inc/log.h"
+#include "inc/astar.h"
 
 
 

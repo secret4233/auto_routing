@@ -19,6 +19,9 @@
         "ostream": "cpp",
         "sstream": "cpp",
         "streambuf": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "array": "cpp",
+        "any": "cpp",
+        "string_view": "cpp"
     }
 }
