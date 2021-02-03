@@ -1,7 +1,9 @@
 #include "graph.h"
 
-// 该函数用于生成制定点数和边数的图
-Graph::Graph(int _vecNum,int _edgeNum):vecNum(_vecNum),edgeNum(_edgeNum){}
+
+// 默认构造函数生成100个点
+Graph::Graph():vecNum(100){}
+
 
 // 该函数用于给定图的情况
 // 通过先确定点的数量,后续再添加边来处理
@@ -23,18 +25,18 @@ void Graph::DbAddEdge(int u,int v,double w){
 
 // graphNode: 节点的信息
 // 该函数取得某个节点的首条边
-Edge *Graph::GetFirstEdgeNode(int graphNode){
-    if(graphNode > vecNum){
+const Edge *Graph::GetFirstEdge(int graphVertex){
+    if(graphVertex > vecNum){
         LogError("节点超出范围");
         return NULL;
     }
-    return &e[head[graphNode]];
+    return &e[head[graphVertex]];
 }
 
 
 // edgeNode:边的信息
 // 该函数取得某个节点边的后继边
-Edge *Graph::GetNxtNode(Edge *edge){ 
+const Edge *Graph::GetNxtEdge(const Edge *edge){ 
     if(edge->from > edgeNum){
         LogError("边数不在预期范围内");
         return NULL;
@@ -42,4 +44,12 @@ Edge *Graph::GetNxtNode(Edge *edge){
     if(edge->from == 0)  return NULL;
 
     return &e[edge->from];
+}
+
+const Vertex *Graph::GetVertex(int graphVertex){
+    if(graphVertex > vecNum){
+        LogError("节点超出范围");
+        return NULL;
+    }
+    return &vx[graphVertex];
 }

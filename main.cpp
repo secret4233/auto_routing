@@ -13,7 +13,7 @@ int main(){
     LogUtils logger;
     LogInfo("QAQ%d",233);
 
-    Graph graph(20,40);
+    Graph graph(100);
 
     for(int i = 1; i <= 20; ++i){
         graph.DbAddEdge(1,i,2.0);

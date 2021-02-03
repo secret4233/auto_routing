@@ -1,5 +1,29 @@
 #include "astar.h"
 
+double CalCost(Graph *g,int nowVertex,int endVertex){
+    const Vertex *now = g->GetVertex(nowVertex);
+    const Vertex *end = g->GetVertex(endVertex);
+
+    return abs(now->xAxis - end->xAxis) + abs(now->yAxis - end->yAxis);
+}
+
+void AStar::randGraph(int sqrtVecNum){
+    int obstacleNum = rand() % 3 + 1;
+    pair<int,int> obsracleMessage;
+
+    for(int i = 0 ; i < sqrtVecNum; ++i){
+        for(int j = 0; j < sqrtVecNum; ++j){
+
+        }
+    }
+}
+
+AStar::AStar(int _vecNum,int _k):g(100){
+    k = _k; algorithmAns = -1;
+    randGraph(10);
+};
+
+
 
 double AStar::CoreAlgorithm(int star,int end,double (*cal)(int,int)){
     priority_queue<Node> q;
@@ -15,8 +39,9 @@ double AStar::CoreAlgorithm(int star,int end,double (*cal)(int,int)){
                 return algorithmAns;     
             }
         }
-        for(Edge *nxt = GetFirstEdgeNode(u); nxt != NULL; nxt = GetNxtNode(nxt)){
+        for(const Edge *nxt = g.GetFirstEdge(u); nxt != NULL; nxt = g.GetNxtEdge(nxt)){
             int v = nxt->v;
+            
             if(oldX.vis[v])    continue; //该搜索路径下,已经访问过该节点,则无需入队
             Node newX = oldX;  //继承访问过的节点,也可视为搜索路径
             newX.u = v; 

@@ -7,27 +7,32 @@
 using namespace std;
 
 
-const int MAX_VEC = 200 + 10;           //点数
+const int MAX_VERTEX = 200 + 10;           //点数
 const int MAX_EDGE = 200 * 200 + 10;    //边数
 
-typedef struct graphEdge{
+typedef struct graphEdgeMessage{
     int from,u,v;
     double w;
-    int xAxis,yAxis;
 }Edge;
+
+typedef struct graphVertexMessage{
+    int xAxis,yAxis;
+}Vertex;
 
 class Graph{
 private:
     int vecNum,edgeNum; 
-    int head[MAX_VEC];
+    int head[MAX_VERTEX];
     Edge e[MAX_EDGE];
+    Vertex vx[MAX_VERTEX];
 public:
-    Graph(int _vecNum,int _edgeNum);
     Graph(int _vecNum);
+    Graph();
     void AddEdge(int u,int v,double w); 
     void DbAddEdge(int u,int v,double w);
-    Edge *GetFirstEdgeNode(int graphNode);
-    Edge *GetNxtNode(Edge *edeg);
+    const Edge *GetFirstEdge(int graphVertex);
+    const Edge *GetNxtEdge(const Edge *edeg);
+    const Vertex *GetVertex(int graphVertex);
 };
 
 
