@@ -4,6 +4,7 @@
 
 #include <bits/stdc++.h>
 #include "graph.h"
+#include "log.h"
 
 
 struct Node{
