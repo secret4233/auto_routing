@@ -13,10 +13,10 @@ int main(){
     LogUtils logger;
     
     AStar method1(25,1);
-    int star = method1.GetGraphVertexNum(2,0);
+    int start = method1.GetGraphVertexNum(2,0);
     int end = method1.GetGraphVertexNum(2,4);
-    double ans = method1.CoreAlgorithm(star,end);
+    double ans = method1.CoreAlgorithm(start,end);
 
-    printf("%lf",ans);
-
+    printf("%d -> %d %lf",start,end,ans);
+    return 0;
 }

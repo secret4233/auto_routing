@@ -36,8 +36,9 @@ void randObstacle(){
 
 bool isInObstacle(int xAxis,int yAxis){
     for(int i = 0; i < obstacleNum; ++i){
-        if(xAxis >= obstacleMessage[i][0].first && xAxis <= obstacleMessage[i][1].second
+        if(xAxis >= obstacleMessage[i][0].first && xAxis <= obstacleMessage[i][1].first
             && yAxis >= obstacleMessage[i][0].second && yAxis <= obstacleMessage[i][1].second){
+                LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
                 return true;
             }
     }
@@ -45,7 +46,7 @@ bool isInObstacle(int xAxis,int yAxis){
 }
 
 bool isInGraph(int xAxis,int yAxis){
-    if(xAxis < 0 || xAxis > obstacleNum || yAxis < 0 || yAxis > obstacleNum){
+    if(xAxis < 0 || xAxis >= sqrtVertexNum || yAxis < 0 || yAxis >= sqrtVertexNum){
         return false;
     }
     return true;
@@ -65,7 +66,7 @@ void AStar::addEdge(int xAxis,int yAxis){
         if(!isInObstacle(nxtXAxis,nxtYAxis) && isInGraph(nxtXAxis,nxtYAxis)){
             int nxtNum = GetGraphVertexNum(nxtXAxis,nxtYAxis);
             g.AddEdge(nowNum,nxtNum,1);
-            LogDebug("a new edge: %d -> %d\n",nowNum,nxtNum);
+            LogDebug("a new edge: %d -> %d",nowNum,nxtNum);
         }
     }
     return;
@@ -82,7 +83,7 @@ void AStar::randGraph(){
 }
 
 //要求_vertexNum为平方数
-AStar::AStar(int _vertexNum = 100,int _k = 1):g(_vertexNum){
+AStar::AStar(int _vertexNum,int _k):g(_vertexNum){
     k = _k; algorithmAns = -1;
     sqrtVertexNum = (int)sqrt(_vertexNum);
     randGraph();
@@ -91,9 +92,9 @@ AStar::AStar(int _vertexNum = 100,int _k = 1):g(_vertexNum){
 
 
 
-double AStar::CoreAlgorithm(int star,int end){
+double AStar::CoreAlgorithm(int start,int end){
     priority_queue<Node> q;
-    q.push((Node){star,0,calCost(star,end)});
+    q.push((Node){start,0,calCost(start,end)});
     LogDebug("A*算法开始");
     while(!q.empty()){
         Node oldX = q.top(); q.pop();
