@@ -18,7 +18,6 @@ struct Node{
 
 
 // AStar算法默认代价预估函数:为两点间的曼哈顿距离
-double CalCost(int nowVertex,int endVertex);
 
 class AStar{
 private:
@@ -28,10 +27,14 @@ private:
     int k;
     Graph g;
     // 创建有障碍的随机图
-    void randGraph(int);
+    void randGraph();
+    void addEdge(int,int);
+    double calCost(int,int);
 public:
-    AStar(int _vecNum = 100,int _k = 1);
-    double CoreAlgorithm(int star,int end,double (*cal)(int,int) = &CalCost);
+    AStar(int,int);
+    double CoreAlgorithm(int star,int end);
+    int GetGraphVertexNum(int,int);
+   
 };
 
 

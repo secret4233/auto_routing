@@ -11,19 +11,12 @@ using namespace std;
 
 int main(){
     LogUtils logger;
-    LogInfo("QAQ%d",233);
+    
+    AStar method1(25,1);
+    int star = method1.GetGraphVertexNum(2,0);
+    int end = method1.GetGraphVertexNum(2,4);
+    double ans = method1.CoreAlgorithm(star,end);
 
-    Graph graph(100);
-
-    for(int i = 1; i <= 20; ++i){
-        graph.DbAddEdge(1,i,2.0);
-    }
-
-    // for(int i = 1; i <= 20; ++i){
-    //     Edge *now = graph.getFirstEdgeNode(i);
-    //     for(;now != NULL;now = graph.getNxtNode(*now)){
-    //         printf("%02d --> %02d %f\n",now->u,now->v,now->w);
-    //     }
-    // }
+    printf("%lf",ans);
 
 }
