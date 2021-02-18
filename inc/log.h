@@ -6,6 +6,8 @@ using namespace std;
 using namespace log4cplus;
 
 
+// TODO 1.日志颜色封装; 2.日志等级封装
+
 #define PATH_SIZE 1024
 //日志封装
 #define LogDebug(...) LOG4CPLUS_DEBUG_FMT(LogUtils::_logger, __VA_ARGS__)
