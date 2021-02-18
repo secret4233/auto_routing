@@ -7,7 +7,7 @@ double AStar::calCost(int nowVertex,int endVertex){
     return abs(now->xAxis - end->xAxis) + abs(now->yAxis - end->yAxis);
 }
 
-// 变量的使用有点优化
+// 全局变量的使用考虑优化
 
 const int maxObstacleNum = 5;
 int obstacleNum;

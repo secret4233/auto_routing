@@ -3,10 +3,28 @@
 
 #include <bits/stdc++.h>
 #include <Eigen/Core> 
+#include "log.h"
+#include "graph.h"
 
 using namespace std;
 using namespace Eigen;
 
-struct PSO;
+class PSOAlgorithm{
+private:
+    double kruskalAns,algorithmAns;
+    vector<int> basicPoint;
+    Graph g;
+    double kruskalAlgorithm(const vector<int>*);
+    double calDistance(int,int);
+    void randGraph();
+    void addEdge(int,int);
+
+    //这一块为算法内部使用变量
+
+public:
+    PSOAlgorithm(int);
+    double CoreAlgorithm(int,int);
+};
+
 
 #endif

@@ -18,6 +18,8 @@ struct Node{
 
 
 // AStar算法默认代价预估函数:为两点间的曼哈顿距离
+// TODO 预估代价函数考虑用抽象类封装
+// TODO 随机生成起始点及重点,考虑画图展示
 
 class AStar{
 private:
@@ -28,7 +30,9 @@ private:
     Graph g;
     // 创建有障碍的随机图
     void randGraph();
-    void addEdge(int,int);
+
+    //TODO 考虑优化?属实不美观
+    void addEdge(int,int); 
     double calCost(int,int);
 public:
     AStar(int,int);
