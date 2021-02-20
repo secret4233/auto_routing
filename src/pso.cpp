@@ -80,5 +80,10 @@
 
 //kruskal算法
 
+double kruskalAlgorithm(){
+    
+}
+
+
 
 

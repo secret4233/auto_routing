@@ -22,6 +22,11 @@ void Graph::DbAddEdge(int u,int v,double w){
     AddEdge(u,v,w); AddEdge(v,u,w);
 }
 
+//TODO 待添加细节
+void Graph::AddVertex(int which,int x,int y){
+
+}
+
 
 // graphNode: 节点的信息
 // 该函数取得某个节点的首条边

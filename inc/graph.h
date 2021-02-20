@@ -16,7 +16,7 @@ typedef struct graphEdgeMessage{
 }Edge;
 
 typedef struct graphVertexMessage{
-    int xAxis,yAxis;
+    int which,xAxis,yAxis;
 }Vertex;
 
 class Graph{
@@ -29,10 +29,13 @@ public:
     Graph(int _vecNum);
     Graph();
     void AddEdge(int u,int v,double w); 
+    //TODO 
+    void AddVertex(int which,int x,int y);
     void DbAddEdge(int u,int v,double w);
     const Edge *GetFirstEdge(int graphVertex);
     const Edge *GetNxtEdge(const Edge *edeg);
     const Vertex *GetVertex(int graphVertex);
+
 };
 
 
