@@ -81,7 +81,7 @@
 //kruskal算法
 
 double kruskalAlgorithm(){
-    
+   return 0.0; 
 }
 
 

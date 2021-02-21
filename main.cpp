@@ -12,11 +12,11 @@ using namespace std;
 int main(){
     LogUtils logger;
     
-    AStar method1(25,1);
+    AStar method1(100,1);
     int start = method1.GetGraphVertexNum(2,0);
     int end = method1.GetGraphVertexNum(2,4);
     double ans = method1.CoreAlgorithm(start,end);
 
-    printf("%d -> %d %lf",start,end,ans);
+    printf("%d -> %d %lf\n",start,end,ans);
     return 0;
 }

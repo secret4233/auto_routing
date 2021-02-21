@@ -17,14 +17,16 @@ void Graph::AddEdge(int u,int v,double w){
 } 
 
 
-// 无向图加边
+// 添加无向(双向)边
 void Graph::DbAddEdge(int u,int v,double w){
     AddEdge(u,v,w); AddEdge(v,u,w);
 }
 
-//TODO 待添加细节
-void Graph::AddVertex(int which,int x,int y){
-
+// 图类加点
+void Graph::AddVertex(int which,int xAxis,int yAxis){
+    vx[which].which = which;
+    vx[which].xAxis = xAxis;
+    vx[which].yAxis = yAxis;
 }
 
 

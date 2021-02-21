@@ -38,7 +38,7 @@ bool isInObstacle(int xAxis,int yAxis){
     for(int i = 0; i < obstacleNum; ++i){
         if(xAxis >= obstacleMessage[i][0].first && xAxis <= obstacleMessage[i][1].first
             && yAxis >= obstacleMessage[i][0].second && yAxis <= obstacleMessage[i][1].second){
-                LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
+                // LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
                 return true;
             }
     }
@@ -66,7 +66,7 @@ void AStar::addEdge(int xAxis,int yAxis){
         if(!isInObstacle(nxtXAxis,nxtYAxis) && isInGraph(nxtXAxis,nxtYAxis)){
             int nxtNum = GetGraphVertexNum(nxtXAxis,nxtYAxis);
             g.AddEdge(nowNum,nxtNum,1);
-            LogDebug("a new edge: %d -> %d",nowNum,nxtNum);
+            //LogDebug("a new edge: %d -> %d",nowNum,nxtNum);
         }
     }
     return;
@@ -77,6 +77,7 @@ void AStar::randGraph(){
     for(int i = 0 ; i < sqrtVertexNum; ++i){
         for(int j = 0; j < sqrtVertexNum; ++j){
             if(isInObstacle(i,j))   continue;
+            g.AddVertex(GetGraphVertexNum(i,j),i,j);
             addEdge(i,j);
         }
     }
@@ -95,7 +96,7 @@ AStar::AStar(int _vertexNum,int _k):g(_vertexNum){
 double AStar::CoreAlgorithm(int start,int end){
     priority_queue<Node> q;
     q.push((Node){start,0,calCost(start,end)});
-    LogDebug("A*算法开始");
+    LogInfo("A*算法开始");
     while(!q.empty()){
         Node oldX = q.top(); q.pop();
         int u = oldX.u;
