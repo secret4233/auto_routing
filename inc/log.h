@@ -6,14 +6,14 @@ using namespace std;
 using namespace log4cplus;
 
 
-// TODO 1.日志颜色封装; 2.日志等级封装
 
 #define PATH_SIZE 1024
+
 //日志封装
-#define LogDebug(...) LOG4CPLUS_DEBUG_FMT(LogUtils::_logger, __VA_ARGS__)
-#define LogInfo(...) LOG4CPLUS_INFO_FMT(LogUtils::_logger, __VA_ARGS__)
-#define LogWarn(...) LOG4CPLUS_WARN_FMT(LogUtils::_logger, __VA_ARGS__)
-#define LogError(...) LOG4CPLUS_ERROR_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogDebug(...)   LOG4CPLUS_DEBUG_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogInfo(...)    LOG4CPLUS_INFO_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogWarn(...)    LOG4CPLUS_WARN_FMT(LogUtils::_logger, __VA_ARGS__)
+#define LogError(...)   LOG4CPLUS_ERROR_FMT(LogUtils::_logger, __VA_ARGS__)
 
 
 // 日志控制类，全局共用一个日志
