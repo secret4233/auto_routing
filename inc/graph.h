@@ -29,9 +29,8 @@ public:
     Graph(int _vecNum);
     Graph();
     void AddEdge(int u,int v,double w); 
-    //TODO 
-    void AddVertex(int which,int x,int y);
     void DbAddEdge(int u,int v,double w);
+    void AddVertex(int which,int x,int y);
     const Edge *GetFirstEdge(int graphVertex);
     const Edge *GetNxtEdge(const Edge *edeg);
     const Vertex *GetVertex(int graphVertex);

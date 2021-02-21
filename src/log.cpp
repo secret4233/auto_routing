@@ -18,23 +18,26 @@ string getNowTime(){
 
 Logger LogUtils::_logger = log4cplus::Logger::getInstance("main_log");
 
-LogUtils::LogUtils(){
+/*
+ALL_LOG_LEVEL       (    0) ：开放所有log信息输出
+DEBUG_LOG_LEVEL     (10000) ：开放debug信息输出
+INFO_LOG_LEVEL      (20000) ：开放info信息输出
+WARN_LOG_LEVEL      (30000) ：开放warning信息输出
+ERROR_LOG_LEVEL     (40000) ：开放error信息输出
+OFF_LOG_LEVEL       (60000) ：关闭所有log信息输出
+*/
+LogUtils::LogUtils(int logLevel){
     snprintf(logPath,sizeof(logPath),  "%s", "./output");
     snprintf(logName,sizeof(logName),  "%s/%s.%s", logPath, getNowTime().c_str(), "log");
-    logInit();
+    logInit(logLevel);
 }
 
 LogUtils::~LogUtils(){}
 
-LogUtils& LogUtils::instance(){
-    static LogUtils log;
-    return log;
-}
 
 
 //日志初始化操作
-bool LogUtils::logInit(){
-    int Log_level = 0;
+bool LogUtils::logInit(int logLevel){
 
     /* step 1: Instantiate an appender object */
     SharedAppenderPtr _append(new FileAppender(logName,ios_base::app));
@@ -50,10 +53,15 @@ bool LogUtils::logInit(){
     LogUtils::_logger.addAppender(_append);
 
     /* step 6: Set a priority for the logger  */
-    LogUtils::_logger.setLogLevel(Log_level);
+    LogUtils::_logger.setLogLevel(logLevel);
     return true;
 }
 
+// 设置日志等级
+void LogUtils::SetLogLevel(int logLevel){
+    _logger.setLogLevel(logLevel);
+    return;
+}
 
 
 

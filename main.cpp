@@ -10,7 +10,7 @@ using namespace std;
 
 
 int main(){
-    LogUtils logger;
+    LogUtils logger(INFO_LOG_LEVEL);
     
     AStar method1(100,1);
     int start = method1.GetGraphVertexNum(2,0);
