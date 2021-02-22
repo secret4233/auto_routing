@@ -10,6 +10,9 @@ using namespace std;
 const int MAX_VERTEX = 200 + 10;           //点数
 const int MAX_EDGE = 200 * 200 + 10;    //边数
 
+// TODO 使用int还是double需要再次确定
+// TODO 内部变量考虑vector?
+
 typedef struct graphEdgeMessage{
     int from,u,v;
     double w;
@@ -34,7 +37,7 @@ public:
     const Edge *GetFirstEdge(int graphVertex);
     const Edge *GetNxtEdge(const Edge *edeg);
     const Vertex *GetVertex(int graphVertex);
-
+    double calDistance(const Vertex&,const Vertex&);
 };
 
 
