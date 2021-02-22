@@ -1,5 +1,4 @@
-//#include "pso.h"
-//#include "grap.h"
+#include "pso.h"
 
 
 //const int INF = 0x3f3f3f3f;
@@ -78,10 +77,27 @@
 
 //};
 
-//kruskal算法
+// 生成随机数量(5-10),位置不定(0-9999)的点
+void PSOAlgorithm::randGraph(){
+    int randPointNum = rand() % 6 + 5;
+    Vertex tmp;
+    for(int i = 0; i < randPointNum; ++i){
+        tmp.which = i;
+        tmp.xAxis = rand() % 10000,tmp.yAxis = rand() % 10000;
+        basicPoint.push_back(tmp);
+        LogInfo("PSOAlgothm randPoind: which:%d\t,xAxis:%d\t,yAxis:%d\t",
+                i,tmp.xAxis,tmp.yAxis);
+    }
+}
 
-double kruskalAlgorithm(){
-   return 0.0; 
+
+//kruskal算法:充当代价函数
+double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>* randPoint){
+    if(basicPoint.size() <= 0){
+        LogError("randGraph not running");
+        return 0.0;
+    }
+    return 0.0; 
 }
 
 

@@ -12,10 +12,9 @@ using namespace Eigen;
 class PSOAlgorithm{
 private:
     double kruskalAns,algorithmAns;
-    vector<int> basicPoint;
-    Graph g;
-    double kruskalAlgorithm(const vector<int>*);
-    double calDistance(int,int);
+    vector<Vertex> basicPoint;
+    // Graph g;
+    double kruskalAlgorithm(const vector<Vertex>*);
     void randGraph();
     void addEdge(int,int);
 
