@@ -61,6 +61,6 @@ const Vertex *Graph::GetVertex(int graphVertex){
     return &vx[graphVertex];
 }
 
-double Graph::calDistance(const Vertex& x,const Vertex& y){
+double CalDistance(const Vertex& x,const Vertex& y){
     return abs(x.xAxis - y.xAxis) + abs(x.xAxis - y.yAxis); 
 }

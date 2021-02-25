@@ -78,26 +78,56 @@
 //};
 
 // 生成随机数量(5-10),位置不定(0-9999)的点
+// FIXME 注意去重
 void PSOAlgorithm::randGraph(){
     int randPointNum = rand() % 6 + 5;
     Vertex tmp;
     for(int i = 0; i < randPointNum; ++i){
         tmp.which = i;
         tmp.xAxis = rand() % 10000,tmp.yAxis = rand() % 10000;
-        basicPoint.push_back(tmp);
-        LogInfo("PSOAlgothm randPoind: which:%d\t,xAxis:%d\t,yAxis:%d\t",
+        basicPoints.push_back(tmp);
+        LogInfo("PSOAlgothm basic point: which:%d\t,xAxis:%d\t,yAxis:%d\t",
                 i,tmp.xAxis,tmp.yAxis);
     }
+    return;
+}
+
+
+void PSOAlgorithm::getHananPoints(){
+    // Axes:Axis的复数形式
+    vector<int> xAxes,yAxes;
+    set<pair<int,int>> dict; //用于检验元素是否重复,简易树套树(doge)
+    pair<int,int> tmp;
+    for(auto it = basicPoints.begin(); it != basicPoints.end(); it++){
+        xAxes.push_back(it->xAxis);
+        yAxes.push_back(it->yAxis);
+        dict.insert(make_pair(it->xAxis,it->yAxis));
+    }
+    sort(xAxes.begin(),xAxes.end());    unique(xAxes.begin(),xAxes.end());
+    sort(yAxes.begin(),yAxes.end());    unique(yAxes.begin(),yAxes.end());
+
+    Vertex tmpVertex;
+    for(auto i = xAxes.begin(); i != xAxes.end(); i++){
+        for(auto j = yAxes.begin(); j != yAxes.end(); j++){
+            int xAxis = *i,yAxis = *j;
+            if(dict.count(make_pair(xAxis,yAxis)))  continue;
+            tmpVertex.xAxis = xAxis,tmpVertex.yAxis = yAxis;
+            hananPoints.push_back(tmpVertex);
+        }
+    }
+    return;
 }
 
 
 //kruskal算法:充当代价函数
-double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>* randPoint){
-    if(basicPoint.size() <= 0){
+//返回-1:运行有误
+double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>* randPoints){
+    if(basicPoints.size() <= 0){
         LogError("randGraph not running");
-        return 0.0;
+        return -1;
     }
-    return 0.0; 
+
+    
 }
 
 

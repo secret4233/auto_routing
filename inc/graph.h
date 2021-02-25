@@ -22,6 +22,9 @@ typedef struct graphVertexMessage{
     int which,xAxis,yAxis;
 }Vertex;
 
+// 计算两点间距离
+double CalDistance(const Vertex&,const Vertex&);
+
 class Graph{
 private:
     int vecNum,edgeNum; 
@@ -37,7 +40,6 @@ public:
     const Edge *GetFirstEdge(int graphVertex);
     const Edge *GetNxtEdge(const Edge *edeg);
     const Vertex *GetVertex(int graphVertex);
-    double calDistance(const Vertex&,const Vertex&);
 };
 
 
