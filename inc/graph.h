@@ -16,13 +16,16 @@ const int MAX_EDGE = 200 * 200 + 10;    //边数
 typedef struct graphEdgeMessage{
     int from,u,v;
     double w;
-    bool operator <(const Edge &x) const{
-        return w < x.w;
+    bool operator < (const Edge &target) const{
+        return w < target.w;
     }
 }Edge;
 
 typedef struct graphVertexMessage{
     int which,xAxis,yAxis;
+    bool operator - (const Vertex &target) const{
+        return abs(xAxis - target.xAxis) + abs(yAxis - target.yAxis);
+    }
 }Vertex;
 
 // 计算两点间距离
