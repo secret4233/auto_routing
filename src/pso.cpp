@@ -1,94 +1,18 @@
 #include "pso.h"
 
-
-//const int INF = 0x3f3f3f3f;
-//const double pi = acos(-1.0);
-//struct PSO{
-    ////dim:维数,p_num:粒子数量,iters:迭代次数
-    //int dim,pNum,iters;
-    //double v_max,v_min,pos_max,pos_min; //阈值范围
-    //vector<double> pos,spd,pBest;   //pos:position,spd:speed
-    //double gBest;
-    //Matrix<Matrix<double,2,2>, Dynamic, Dynamic> fTest; //TODO 考虑自定义内部矩阵,然后重载比较函数?
-    //Matrix<Matrix<double,2,2>, Dynamic, Dynamic> posMat;   
-
- ////   double calCost(double x){,
-        //double res = x * x + 1;
-        //return res;
-    //}
-
-
-    ////初始化粒子
-    //double init(int _dim,int _pNum,int _iters = 100000){
-        //posMat.resize(_iters,pNum); posMat.fill(INF);
-        //fTest.resize(_iters,pNum);  fTest.fill(INF);            
-        //static mt19937 rng;
-        //uniform_real_distribution<double> rand1(-1,2);
-        //uniform_real_distribution<double> rand2(-2,4);
-        //for(int i = 1; i < pNum; ++i){
-            //pos.push_back(rand1(rng));
-            //spd.push_back(rand2(rng));
-        //}
-        //vector<double> vec;
-        //for(int i = 0; i < pNum; ++i){  //初始化各个粒子的历史最优位置
-            //double tmp = calCost(pos[i]);
-            //fTest(0,i) = tmp;
-            //posMat(0,i) = pos[i];
-            //pBest.push_back(pos[i]);
-        //}
-        //Index  minRow,minCol;
-        //fTest.row(0).minCoeff(&minRow,&minCol);
-        //gBest = posMat(minRow,minCol);// 初始化全局最优解
-    //}
-
-    ////pso算法
-    //void psoAlgorithm(){
-        //static mt19937 rng;
-        //uniform_real_distribution<double> randNum(0,1);
-        //for(int step = 1; step <= iters; ++step){
-            //double w = 0.9 - (double)step / iters * 0.5; 
-            //for(int i = 0; i < pNum; ++i){
-                //spd[i] = w * spd[i] + 2 * randNum(rng) * (pBest[i] - pos[i])
-                                    //+ 2 * randNum(rng) * (gBest - pos[i]);
-                //pos[i] = pos[i] + spd[i];
-                ////越界处理
-                //if (spd[i] < -2 || spd[i] > 4)
-                    //spd[i] = 4;
-                //if (pos[i] < -1 || pos[i] > 2)
-                    //pos[i] = -1;
-                //posMat(step,i) = pos[i];
-            //}
-            ////更新函数值矩阵
-            //for (int i = 0; i < pNum; ++i){
-                //auto tmp = calCost(pos[i]);
-                //fTest(step, i) = tmp;
-            //} 
-            //for(int i = 0; i < pNum; ++i){
-                //MatrixXd tmpBest;
-                //tmpBest = fTest.col(i);
-                //Index minRow,minCol;
-                //tmpBest.minCoeff(&minRow,&minCol);
-                //pBest[i] = posMat(minRow,i);
-            //}
-            //gBest = *min_element(pBest.begin(),pBest.end());
-        //}
-    //}
-
-
-//};
-
 // 生成随机数量(5-10),位置不定(0-9999)的点
 // FIXME 注意去重
 void PSOAlgorithm::randGraph(){
     int randPointNum = rand() % 6 + 5;
     Vertex tmp;
-    for(int i = 0; i < randPointNum; ++i){
+    for(int i = 1; i <= randPointNum; ++i){
         tmp.which = i;
         tmp.xAxis = rand() % 10000,tmp.yAxis = rand() % 10000;
         basicPoints.push_back(tmp);
         LogInfo("PSOAlgothm basic point: which:%d\t,xAxis:%d\t,yAxis:%d\t",
                 i,tmp.xAxis,tmp.yAxis);
     }
+    LogInfo("PSOAlgorithm randGraph complete");
     return;
 }
 
@@ -115,21 +39,64 @@ void PSOAlgorithm::getHananPoints(){
             hananPoints.push_back(tmpVertex);
         }
     }
+    LogInfo("PSOAlgorithm getHananPoints complete");
     return;
 }
 
 
-//kruskal算法:充当代价函数
-//返回-1:运行有误
-double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>* randPoints){
+/*
+kruskal算法:充当代价函数
+返回-1:运行有误
+TODO 目前采用最简单的做法,后续可以考虑优化
+*/
+double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
     if(basicPoints.size() <= 0){
         LogError("randGraph not running");
         return -1;
     }
+    vector<Vertex> nowPoints = basicPoints;
+    nowPoints.insert(nowPoints.end(),randPoints.begin(),randPoints.end());
 
-    
+    // 给随机点生成编号
+    for(int i = 0; i < nowPoints.size(); ++i){
+        if(nowPoints[i].which == 0){
+            if(i == 0){
+                LogError("firstPoint is zero");
+                return -1;
+            }
+            nowPoints[i].which = nowPoints[i - 1].which + 1;
+        }
+    }
+
+    vector<Edge> allEdge;
+    Edge tmp;
+    for(int i = 0; i < nowPoints.size(); ++i){
+        for(int j = 0; j < nowPoints.size(); ++j){
+            if(i == j)  continue;
+            tmp.u = nowPoints[i].which,tmp.v = nowPoints[j].which;
+            tmp.w = nowPoints[i] - nowPoints[j];
+            allEdge.push_back(tmp);
+        }
+    }
+    sort(allEdge.begin(),allEdge.end());
+    class UNS dict;
+    double nowAns = 0.0;
+    for(auto it = allEdge.begin(); it !=  allEdge.end(); it++){
+        if(!dict.IsSameFather(it->u,it->v)){
+            dict.UnionPoint(it->u,it->v);
+            nowAns += it->w;
+        }
+    }
+    return nowAns;
 }
 
+//pNum:粒子数量,iters:迭代次数
+PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
+    randGraph();
+    getHananPoints();
+    vector<Vertex> tmp;
+    kruskalAns = kruskalAlgorithm(tmp);
+}
 
 
 
