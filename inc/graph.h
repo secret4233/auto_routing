@@ -43,5 +43,18 @@ public:
 };
 
 
+// 并查集
+class UNS{
+private:
+    int fatherPoint[MAX_VERTEX];
+public:
+    UNS();
+    int findFather(int);
+    void unionPoint(int,int);
+};
+
+
+
+
 
 #endif 

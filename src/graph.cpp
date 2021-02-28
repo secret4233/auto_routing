@@ -64,3 +64,13 @@ const Vertex *Graph::GetVertex(int graphVertex){
 double CalDistance(const Vertex& x,const Vertex& y){
     return abs(x.xAxis - y.xAxis) + abs(x.xAxis - y.yAxis); 
 }
+
+int UNS::findFather(int x){
+    if(fatherPoint[x] == x)  return x;
+    return fatherPoint[x] = findFather(fatherPoint[x]);
+}
+
+void UNS::unionPoint(int x,int y){
+    int a = findFather(x),b = findFather(y);
+    if(a != b)  fatherPoint[a] = b;
+}
