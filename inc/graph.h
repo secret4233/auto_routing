@@ -23,7 +23,7 @@ typedef struct graphEdgeMessage{
 
 typedef struct graphVertexMessage{
     int which,xAxis,yAxis;
-    bool operator - (const Vertex &target) const{
+    int operator - (const Vertex &target) const{
         return abs(xAxis - target.xAxis) + abs(yAxis - target.yAxis);
     }
 }Vertex;
@@ -55,8 +55,9 @@ private:
     int fatherPoint[MAX_VERTEX];
 public:
     UNS();
-    int findFather(int);
-    void unionPoint(int,int);
+    int FindFather(int);
+    void UnionPoint(int,int);
+    bool IsSameFather(int,int);
 };
 
 

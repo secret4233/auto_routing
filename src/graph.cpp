@@ -65,12 +65,22 @@ double CalDistance(const Vertex& x,const Vertex& y){
     return abs(x.xAxis - y.xAxis) + abs(x.xAxis - y.yAxis); 
 }
 
-int UNS::findFather(int x){
-    if(fatherPoint[x] == x)  return x;
-    return fatherPoint[x] = findFather(fatherPoint[x]);
+UNS::UNS(){
+    for(int i = 0; i < MAX_VERTEX; ++i){
+        fatherPoint[i] = i;
+    }
 }
 
-void UNS::unionPoint(int x,int y){
-    int a = findFather(x),b = findFather(y);
+int UNS::FindFather(int x){
+    if(fatherPoint[x] == x)  return x;
+    return fatherPoint[x] = FindFather(fatherPoint[x]);
+}
+
+void UNS::UnionPoint(int x,int y){
+    int a = FindFather(x),b = FindFather(y);
     if(a != b)  fatherPoint[a] = b;
+}
+
+bool UNS::IsSameFather(int x,int y){
+    return FindFather(x) == FindFather(y);
 }
