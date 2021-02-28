@@ -16,6 +16,9 @@ const int MAX_EDGE = 200 * 200 + 10;    //边数
 typedef struct graphEdgeMessage{
     int from,u,v;
     double w;
+    bool operator <(const Edge &x) const{
+        return w < x.w;
+    }
 }Edge;
 
 typedef struct graphVertexMessage{
