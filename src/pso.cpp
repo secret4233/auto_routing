@@ -90,6 +90,28 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
     return nowAns;
 }
 
+
+// pso算法的初始化
+void PSOAlgorithm::init(){
+    posMat.resize(iters,pNum); 
+    fTest.resize(iters,pNum);
+    static mt19937 rng;
+    uniform_real_distribution<int> rand1(0,10000);
+    uniform_real_distribution<int> rand2(-20000,20000);
+    for(int i = 1; i < pNum; ++i){
+        pair<int,int> tmp = nearestPoint(rand1(rng),rand1(rng));
+        pos.push_back(tmp);
+        spd.push_back(make_pair(rand2(rng),rand2(rng)));
+    }
+    for(int i = 0; i < pNum; ++i){
+        
+    }
+
+
+}
+
+
+
 //pNum:粒子数量,iters:迭代次数
 PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
     randGraph();
@@ -97,6 +119,3 @@ PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
     vector<Vertex> tmp;
     kruskalAns = kruskalAlgorithm(tmp);
 }
-
-
-
