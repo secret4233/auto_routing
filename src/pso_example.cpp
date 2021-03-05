@@ -1,8 +1,6 @@
 #include "pso.h"
 
 
-const int INF = 0x3f3f3f3f;
-const double pi = acos(-1.0);
 struct PSO{
     //dim:维数,p_num:粒子数量,iters:迭代次数
     int dim,pNum,iters;

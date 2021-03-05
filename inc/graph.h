@@ -16,14 +16,14 @@ const int MAX_EDGE = 200 * 200 + 10;    //边数
 typedef struct graphEdgeMessage{
     int from,u,v;
     double w;
-    bool operator < (const Edge &target) const{
+    bool operator < (const graphEdgeMessage &target) const{
         return w < target.w;
     }
 }Edge;
 
 typedef struct graphVertexMessage{
     int which,xAxis,yAxis;
-    int operator - (const Vertex &target) const{
+    int operator - (const graphVertexMessage &target) const{
         return abs(xAxis - target.xAxis) + abs(yAxis - target.yAxis);
     }
 }Vertex;
