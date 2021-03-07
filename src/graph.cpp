@@ -2,7 +2,7 @@
 
 
 // 默认构造函数生成100个点
-Graph::Graph():vecNum(100){}
+//Graph::Graph():vecNum(100){}
 
 
 // 该函数用于给定图的情况
@@ -34,7 +34,7 @@ void Graph::AddVertex(int which,int xAxis,int yAxis){
 // 该函数取得某个节点的首条边
 const Edge *Graph::GetFirstEdge(int graphVertex){
     if(graphVertex > vecNum){
-        LogError("节点超出范围");
+        LogError("节点超出范围,graphVertex:%d",graphVertex);
         return NULL;
     }
     return &e[head[graphVertex]];
@@ -45,7 +45,7 @@ const Edge *Graph::GetFirstEdge(int graphVertex){
 // 该函数取得某个节点边的后继边
 const Edge *Graph::GetNxtEdge(const Edge *edge){ 
     if(edge->from > edgeNum){
-        LogError("边数不在预期范围内");
+        LogError("边数不在预期范围内,edge->from:%d",edge->from);
         return NULL;
     }
     if(edge->from == 0)  return NULL;
@@ -55,7 +55,7 @@ const Edge *Graph::GetNxtEdge(const Edge *edge){
 
 const Vertex *Graph::GetVertex(int graphVertex){
     if(graphVertex > vecNum){
-        LogError("节点超出范围");
+        LogError("节点超出范围,graphVertex:%d",graphVertex);
         return NULL;
     }
     return &vx[graphVertex];

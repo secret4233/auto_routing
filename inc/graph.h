@@ -6,9 +6,9 @@
 
 using namespace std;
 
-
-const int MAX_VERTEX = 200 + 10;           //点数
-const int MAX_EDGE = 200 * 200 + 10;    //边数
+const int MAX_LINE = 50;
+const int MAX_VERTEX = MAX_LINE * MAX_LINE + 10;           //点数
+const int MAX_EDGE = MAX_VERTEX * 8 + 10;    //边数
 
 // TODO 使用int还是double需要再次确定
 // TODO 内部变量考虑vector?
