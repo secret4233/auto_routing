@@ -12,6 +12,16 @@ using namespace Eigen;
 const int INF = 0x3f3f3f3f;
 const double pi = acos(-1.0);
 
+struct particleMessage{
+    int UsefulNum; // 有效点的数量
+    vector<Vertex> BasicMessage;
+    vector<Vertex> GetUsefulMessage(){
+        vector<Vertex> result;
+        result.assign(BasicMessage.begin(),BasicMessage.begin() + UsefulNum);
+        return result;
+    }
+};
+
 class PSOAlgorithm{
 private:
     double kruskalAns,algorithmAns;
@@ -22,22 +32,25 @@ private:
     void getHananPoints();
     void init();
     double calCost(const vector<Vertex>&);
-    pair<int,int> nearestPoint(int x,int y);
+    Vertex nearestPoint(int x,int y);
 
     //这一块为核心算法内部使用变量
 
-    //p_num:粒子数量,iters:迭代次数
-    int iters,pNum;
-    double v_max,v_min,pos_max,pos_min; //阈值范围
-    vector<double> pBest;   //pos:position,spd:speed,pBest
-    double gBest;
-    vector<pair<int,int>> pos,spd;
-    Matrix<pair<int,int>, Dynamic, Dynamic> fTest; 
-    Matrix<pair<int,int>, Dynamic, Dynamic> posMat;   
+    //pNum:粒子数量,iters:迭代次数
+    int iters,pNum,maxHananNum;
+    double vMax,vMin,posMax,posMin; //阈值范围
+    vector<particleMessage> pBest;   // 各粒子求得的最优长度
+    particleMessage gBest;           // 全局最优长度
+    vector<particleMessage> pos,spd; // 各粒子的位置及速度信息
+
+    // 第一维:迭代次数,第二维:粒子数
+    Matrix<double, Dynamic, Dynamic> fTest;             // 每个粒子求得的长度
+    Matrix<particleMessage, Dynamic, Dynamic> posMat;   // 最优解(包含的点)
 
 public:
     PSOAlgorithm(int,int);
-    double CoreAlgorithm(int,int);
+    double CoreAlgorithm();
+    double GetKruskalAns();
 };
 
 

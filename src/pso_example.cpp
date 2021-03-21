@@ -2,7 +2,7 @@
 
 
 struct PSO{
-    //dim:维数,p_num:粒子数量,iters:迭代次数
+    //dim:维数,pum:粒子数量,iters:迭代次数,
     int dim,pNum,iters;
     double v_max,v_min,pos_max,pos_min;
     vector<double> pos,spd,pBest;

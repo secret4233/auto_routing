@@ -4,6 +4,9 @@
 // FIXME 注意去重
 void PSOAlgorithm::randGraph(){
     int randPointNum = rand() % 6 + 5;
+
+    // 此处规定hanan点数量,为总随机点数-2
+    maxHananNum = randPointNum - 2;
     Vertex tmp;
     for(int i = 1; i <= randPointNum; ++i){
         tmp.which = i;
@@ -98,18 +101,30 @@ void PSOAlgorithm::init(){
     static mt19937 rng;
     uniform_real_distribution<int> rand1(0,10000);
     uniform_real_distribution<int> rand2(-20000,20000);
-    for(int i = 1; i < pNum; ++i){
-        pair<int,int> tmp = nearestPoint(rand1(rng),rand1(rng));
-        pos.push_back(tmp);
-        spd.push_back(make_pair(rand2(rng),rand2(rng)));
+    for(int i = 0; i < pNum; ++i){ // 枚举所有粒子
+        particleMessage posNeedToAdd,spdNeedToAdd;
+        posNeedToAdd.UsefulNum = rand() % (maxHananNum + 1);
+        spdNeedToAdd.UsefulNum = posNeedToAdd.UsefulNum;
+        for(int j = 0; j < maxHananNum; ++j){ // 枚举每个粒子的最大Hanan点的数量
+            // TODO:此处选用的hanan点为随机生成某点后取最近的点,也许可优化
+            Vertex tmpMessage = nearestPoint(rand1(rng),rand1(rng));
+            posNeedToAdd.BasicMessage.push_back(tmpMessage);
+            spdNeedToAdd.BasicMessage.push_back(Vertex{0,0,0});
+        }
+        pos.push_back(posNeedToAdd);
+        spd.push_back(spdNeedToAdd);
     }
+
     for(int i = 0; i < pNum; ++i){
-        // TODO 生成初始点
+        double tmp = kruskalAlgorithm(pos[i].GetUsefulMessage());
+        fTest(0,i) = tmp;
+        posMat(0,i) = pos[i];
+        pBest.push_back(pos[i]);
     }
-
-
+    Index minRow,minCol;
+    fTest.row(0).minCoeff((&minRow,&minCol));
+    gBest = posMat(minCol,minCol);
 }
-
 
 
 //pNum:粒子数量,iters:迭代次数
@@ -118,4 +133,39 @@ PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
     getHananPoints();
     vector<Vertex> tmp;
     kruskalAns = kruskalAlgorithm(tmp);
+}
+
+
+double PSOAlgorithm::CoreAlgorithm(){
+   static mt19937 rng;
+    uniform_real_distribution<double> randNum(0,1);
+    for(int step = 1; step <= iters; ++step){
+        for(int i = 0; i < pNum; ++i){
+            int nowHananPoints = max(max(gBest.UsefulNum,pBest[i].UsefulNum),pos[i].UsefulNum);
+            for(int j = 0; j < nowHananPoints; ++j){
+                spd[i] = 0.5 * spd[i]   + 2 * randNum(rng) * (pBest[i] - pos[i])
+                                        + 2 * randNum(rng) * (gBest - pos[i]);
+                pos[i] = pos[i] + spd[i];
+                //越界处理
+                if (spd[i] < -2 || spd[i] > 4)
+                    spd[i] = 4;
+                if (pos[i] < -1 || pos[i] > 2)
+                    pos[i] = -1;
+                posMat(step,i) = pos[i];
+            }
+        }
+        //更新函数值矩阵
+        for (int i = 0; i < pNum; ++i){
+            auto tmp = kruskalAlgorithm(pos[i].GetUsefulMessage());
+            fTest(step, i) = tmp;
+        } 
+        for(int i = 0; i < pNum; ++i){
+            MatrixXd tmpBest;
+            tmpBest = fTest.col(i);
+            Index minRow,minCol;
+            tmpBest.minCoeff(&minRow,&minCol);
+            pBest[i] = posMat(minRow,i);
+        }
+        gBest = *min_element(pBest.begin(),pBest.end()); 
+    }
 }
