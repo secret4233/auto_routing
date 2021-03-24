@@ -77,7 +77,7 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
         for(int j = 0; j < nowPoints.size(); ++j){
             if(i == j)  continue;
             tmp.u = nowPoints[i].which,tmp.v = nowPoints[j].which;
-            tmp.w = nowPoints[i] - nowPoints[j];
+            tmp.w = CalDistance(nowPoints[i],nowPoints[j]);
             allEdge.push_back(tmp);
         }
     }
@@ -140,20 +140,22 @@ double PSOAlgorithm::CoreAlgorithm(){
    static mt19937 rng;
     uniform_real_distribution<double> randNum(0,1);
     for(int step = 1; step <= iters; ++step){
-        for(int i = 0; i < pNum; ++i){
-            int nowHananPoints = max(max(gBest.UsefulNum,pBest[i].UsefulNum),pos[i].UsefulNum);
-            for(int j = 0; j < nowHananPoints; ++j){
-                spd[i] = 0.5 * spd[i]   + 2 * randNum(rng) * (pBest[i] - pos[i])
-                                        + 2 * randNum(rng) * (gBest - pos[i]);
-                pos[i] = pos[i] + spd[i];
-                //越界处理
-                if (spd[i] < -2 || spd[i] > 4)
-                    spd[i] = 4;
-                if (pos[i] < -1 || pos[i] > 2)
-                    pos[i] = -1;
-                posMat(step,i) = pos[i];
+        double omiga = 0.9 - (double)step / iters * 0.5;
+
+        for(int i = 0; i < pNum; ++i){            
+            // 更新各个粒子有效点的信息
+            int nowHananPointsNum = max(max(gBest.UsefulNum,pBest[i].UsefulNum),pos[i].UsefulNum);
+            for(int nowPoint = 0; nowPoint < nowHananPointsNum; ++nowPoint){
+                spd[i][nowPoint] = spd[i][nowPoint] * omiga
+                                    + (pBest[i][nowPoint] - pos[i][nowPoint]) * 2 * randNum(rng)
+                                    + (gBest[nowPoint] - pos[i][nowPoint]) * 2 * randNum(rng);
+                pos[i][nowPoint] = pos[i][nowPoint] + spd[i][nowPoint];
             }
+
+            // 取得更新后粒子的有效信息
+            posMat(step,i) = pos[i];
         }
+
         //更新函数值矩阵
         for (int i = 0; i < pNum; ++i){
             auto tmp = kruskalAlgorithm(pos[i].GetUsefulMessage());

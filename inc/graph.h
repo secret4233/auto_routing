@@ -22,9 +22,20 @@ typedef struct graphEdgeMessage{
 }Edge;
 
 typedef struct graphVertexMessage{
-    int which,xAxis,yAxis;
-    int operator - (const graphVertexMessage &target) const{
-        return abs(xAxis - target.xAxis) + abs(yAxis - target.yAxis);
+    int which;
+    double xAxis,yAxis;
+    graphVertexMessage operator + (const graphVertexMessage &target) const{
+        return (graphVertexMessage){which,xAxis + target.xAxis,yAxis + target.yAxis};
+    }
+    graphVertexMessage operator - (const graphVertexMessage &target) const{
+        return (graphVertexMessage){which,xAxis - target.xAxis,yAxis - target.yAxis};
+    }
+    graphVertexMessage operator * (const double target) const{
+        graphVertexMessage tmp;
+        tmp.which = which;
+        tmp.xAxis = target * xAxis;
+        tmp.yAxis = target * yAxis;
+        return tmp;
     }
 }Vertex;
 

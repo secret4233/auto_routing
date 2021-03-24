@@ -20,6 +20,9 @@ struct particleMessage{
         result.assign(BasicMessage.begin(),BasicMessage.begin() + UsefulNum);
         return result;
     }
+    Vertex operator [] (int x){
+        return BasicMessage[x];
+    }
 };
 
 class PSOAlgorithm{
