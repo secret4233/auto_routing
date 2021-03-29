@@ -30,11 +30,13 @@ private:
     double kruskalAns,algorithmAns;
     vector<Vertex> basicPoints; // TODO 是否使用自定义模板有待考虑
     vector<Vertex> hananPoints; // hanan点集合
+    int pointsBelong[200][200]; // 距离某点最近的hanan点
     double kruskalAlgorithm(const vector<Vertex>&);
     void randGraph();
     void getHananPoints();
+    void getPointsBelong();
     void init();
-    double calCost(const vector<Vertex>&);
+    // double calCost(const vector<Vertex>&);
     Vertex nearestPoint(int x,int y);
 
     //这一块为核心算法内部使用变量
@@ -53,7 +55,7 @@ private:
 public:
     PSOAlgorithm(int,int);
     double CoreAlgorithm();
-    double GetKruskalAns();
+    void PrintAlgorithmAns();
 };
 
 

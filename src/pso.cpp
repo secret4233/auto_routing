@@ -1,6 +1,6 @@
 #include "pso.h"
 
-// 生成随机数量(5-10),位置不定(0-9999)的点
+// 生成随机数量(5-10),位置不定(0-99)的点
 // FIXME 注意去重
 void PSOAlgorithm::randGraph(){
     int randPointNum = rand() % 6 + 5;
@@ -44,6 +44,43 @@ void PSOAlgorithm::getHananPoints(){
     }
     LogInfo("PSOAlgorithm getHananPoints complete");
     return;
+}
+
+void PSOAlgorithm::getPointsBelong(){
+    memset(pointsBelong,-1,sizeof(pointsBelong));
+    int directionXAxis[10] = {1,-1,0,0};
+    int directionYAxis[10] = {0,0,1,-1};
+    queue<Vertex> q;
+    Vertex tmp;
+    for(int i = 0; i < hananPoints.size(); ++i){
+        tmp = hananPoints[i];
+        tmp.which = i;
+        q.push(tmp);
+        pointsBelong[(int)tmp.xAxis][(int)tmp.yAxis] = i;
+    } 
+    while(!q.empty()){
+        tmp = q.front();    q.pop();
+        for(int i = 0; i < 4; ++i){
+            int nowXAxis = tmp.xAxis + directionXAxis[i];
+            int nowYAxis = tmp.yAxis + directionYAxis[i];
+
+            if(nowXAxis < 0 || nowXAxis >= 100 || nowYAxis < 0 || nowYAxis >= 100)  continue;
+            if(pointsBelong[nowXAxis][nowYAxis] != -1)  continue;
+
+            pointsBelong[nowXAxis][nowYAxis] = tmp.which;
+            q.push((Vertex){tmp.which,nowXAxis,nowYAxis});
+        }
+    }
+    LogInfo("PSOAlgorithm getPointsBelong complete");
+    return;
+}
+
+Vertex PSOAlgorithm::nearestPoint(int x,int y){
+    int which = pointsBelong[x][y];
+    if(which == -1 || which >= hananPoints.size()){
+        LogError("nearestPoint error, xAxis:%d,yAxis:%d",x,y);
+    }
+    return hananPoints[which];
 }
 
 
@@ -131,10 +168,11 @@ void PSOAlgorithm::init(){
 PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
     randGraph();
     getHananPoints();
+    getPointsBelong();
+    init();
     vector<Vertex> tmp;
     kruskalAns = kruskalAlgorithm(tmp);
 }
-
 
 double PSOAlgorithm::CoreAlgorithm(){
    static mt19937 rng;
@@ -170,4 +208,22 @@ double PSOAlgorithm::CoreAlgorithm(){
         }
         gBest = *min_element(pBest.begin(),pBest.end()); 
     }
+}
+
+void PSOAlgorithm::PrintAlgorithmAns(){
+    printf("生成的随机点:\n");
+    for(int i = 0; i < basicPoints.size(); ++i){
+        printf("随机点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,basicPoints[i].xAxis,basicPoints[i].yAxis);
+    }
+
+    printf("PSO算法最优结果使用的hanan点:\n");
+    for(int i = 0; i < gBest.UsefulNum; ++i){
+        printf("hanan点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,gBest[i].xAxis,gBest[i].yAxis);
+    }
+
+    printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",kruskalAlgorithm(gBest.GetUsefulMessage()));
+
+    printf("最小生成树求得的值:%lf\n",kruskalAns);
+    
+    return;
 }

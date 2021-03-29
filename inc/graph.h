@@ -37,6 +37,7 @@ typedef struct graphVertexMessage{
         tmp.yAxis = target * yAxis;
         return tmp;
     }
+    graphVertexMessage operator = ()
 }Vertex;
 
 // 计算两点间距离
