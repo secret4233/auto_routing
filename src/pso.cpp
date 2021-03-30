@@ -1,9 +1,9 @@
 #include "pso.h"
 
-// 生成随机数量(5-10),位置不定(0-99)的点
+// 生成随机数量(10-20),位置不定(0-99)的点
 // FIXME 注意去重
 void PSOAlgorithm::randGraph(){
-    int randPointNum = rand() % 6 + 5;
+    int randPointNum = rand() % 11 + 10;
 
     // 此处规定hanan点数量,为总随机点数-2
     maxHananNum = randPointNum - 2;
@@ -104,13 +104,6 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
 
     // 给随机点生成编号
     for(int i = 0; i < nowPoints.size(); ++i){
-        // if(nowPoints[i].which == 0){
-        //     if(i == 0){
-        //         LogError("firstPoint is zero");
-        //         return -1;
-        //     }
-        //     nowPoints[i].which = nowPoints[i - 1].which + 1;
-        // }
         nowPoints[i].which = i;
     }
 
@@ -220,7 +213,9 @@ void PSOAlgorithm::CoreAlgorithm(){
 
                 // 越界处理
                 spd[i][nowPoint] = dealOutOfBounds(spd[i][nowPoint],1);
-                spd[i][nowPoint] = dealOutOfBounds(pos[i][nowPoint],0);
+                pos[i][nowPoint] = dealOutOfBounds(pos[i][nowPoint],0);
+
+                pos[i][nowPoint] = nearestPoint(pos[i][nowPoint].xAxis,pos[i][nowPoint].yAxis);
             }
 
             // 取得更新后粒子的有效信息
@@ -245,7 +240,7 @@ void PSOAlgorithm::CoreAlgorithm(){
             nowGobalBestAns = fTest(step,minCol);
             gBest = posMat(step,minCol);
         }
-        LogDebug("PSOAlgorithm CoreAlgorithm step%d complete",step);
+        // LogDebug("PSOAlgorithm CoreAlgorithm step%d complete",step);
     }
     return;
 }

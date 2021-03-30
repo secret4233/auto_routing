@@ -20,7 +20,7 @@ int main(){
 
     // printf("%d -> %d %lf\n",start,end,ans);
 
-    PSOAlgorithm method2(10,1000);
+    PSOAlgorithm method2(20,1000);
 
     method2.CoreAlgorithm();
     method2.PrintAlgorithmAns();
