@@ -20,7 +20,7 @@ struct particleMessage{
         result.assign(BasicMessage.begin(),BasicMessage.begin() + UsefulNum);
         return result;
     }
-    Vertex operator [] (int x){
+    Vertex &operator [] (int x){
         return BasicMessage[x];
     }
 };
@@ -32,6 +32,7 @@ private:
     vector<Vertex> hananPoints; // hanan点集合
     int pointsBelong[200][200]; // 距离某点最近的hanan点
     double kruskalAlgorithm(const vector<Vertex>&);
+    Vertex dealOutOfBounds(Vertex,bool);
     void randGraph();
     void getHananPoints();
     void getPointsBelong();
@@ -43,18 +44,18 @@ private:
 
     //pNum:粒子数量,iters:迭代次数
     int iters,pNum,maxHananNum;
-    double vMax,vMin,posMax,posMin; //阈值范围
-    vector<particleMessage> pBest;   // 各粒子求得的最优长度
-    particleMessage gBest;           // 全局最优长度
-    vector<particleMessage> pos,spd; // 各粒子的位置及速度信息
+    int spdMax,spdMin,posMax,posMin;    // 阈值范围,左开右开
+    vector<particleMessage> pBest;      // 各粒子求得的最优{x1,x2...}
+    particleMessage gBest;              // 全局最优长度{x1,x2...}
+    vector<particleMessage> pos,spd;    // 各粒子的位置或速度信息
 
     // 第一维:迭代次数,第二维:粒子数
-    Matrix<double, Dynamic, Dynamic> fTest;             // 每个粒子求得的长度
-    Matrix<particleMessage, Dynamic, Dynamic> posMat;   // 最优解(包含的点)
+    Matrix<double, Dynamic, Dynamic> fTest;             // 每次迭代,各个粒子求得的{y}
+    Matrix<particleMessage, Dynamic, Dynamic> posMat;   // 每次迭代,各个粒子的最优解{x1,x2...}
 
 public:
     PSOAlgorithm(int,int);
-    double CoreAlgorithm();
+    void CoreAlgorithm();
     void PrintAlgorithmAns();
 };
 

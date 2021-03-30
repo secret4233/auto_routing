@@ -10,10 +10,10 @@ void PSOAlgorithm::randGraph(){
     Vertex tmp;
     for(int i = 1; i <= randPointNum; ++i){
         tmp.which = i;
-        tmp.xAxis = rand() % 10000,tmp.yAxis = rand() % 10000;
+        tmp.xAxis = rand() % posMax,tmp.yAxis = rand() % posMax;
         basicPoints.push_back(tmp);
         LogInfo("PSOAlgothm basic point: which:%d\t,xAxis:%d\t,yAxis:%d\t",
-                i,tmp.xAxis,tmp.yAxis);
+                i,(int)tmp.xAxis,(int)tmp.yAxis);
     }
     LogInfo("PSOAlgorithm randGraph complete");
     return;
@@ -51,24 +51,27 @@ void PSOAlgorithm::getPointsBelong(){
     int directionXAxis[10] = {1,-1,0,0};
     int directionYAxis[10] = {0,0,1,-1};
     queue<Vertex> q;
-    Vertex tmp;
+    Vertex nowVertex,needToAdd;
     for(int i = 0; i < hananPoints.size(); ++i){
-        tmp = hananPoints[i];
-        tmp.which = i;
-        q.push(tmp);
-        pointsBelong[(int)tmp.xAxis][(int)tmp.yAxis] = i;
+        nowVertex = hananPoints[i];
+        nowVertex.which = i;
+        q.push(nowVertex);
+        pointsBelong[(int)nowVertex.xAxis][(int)nowVertex.yAxis] = i;
     } 
     while(!q.empty()){
-        tmp = q.front();    q.pop();
+        nowVertex = q.front();    q.pop();
         for(int i = 0; i < 4; ++i){
-            int nowXAxis = tmp.xAxis + directionXAxis[i];
-            int nowYAxis = tmp.yAxis + directionYAxis[i];
+            int nowXAxis = nowVertex.xAxis + directionXAxis[i];
+            int nowYAxis = nowVertex.yAxis + directionYAxis[i];
 
             if(nowXAxis < 0 || nowXAxis >= 100 || nowYAxis < 0 || nowYAxis >= 100)  continue;
             if(pointsBelong[nowXAxis][nowYAxis] != -1)  continue;
 
-            pointsBelong[nowXAxis][nowYAxis] = tmp.which;
-            q.push((Vertex){tmp.which,nowXAxis,nowYAxis});
+            pointsBelong[nowXAxis][nowYAxis] = nowVertex.which;
+
+            needToAdd.which = nowVertex.which;
+            needToAdd.xAxis = (double)nowXAxis,needToAdd.yAxis = (double)nowYAxis;
+            q.push(needToAdd);
         }
     }
     LogInfo("PSOAlgorithm getPointsBelong complete");
@@ -134,17 +137,17 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
 // pso算法的初始化
 void PSOAlgorithm::init(){
     posMat.resize(iters,pNum); 
-    fTest.resize(iters,pNum);
+    fTest.resize(iters,pNum);       fTest.fill(INF);
     static mt19937 rng;
-    uniform_real_distribution<int> rand1(0,10000);
-    uniform_real_distribution<int> rand2(-20000,20000);
+    uniform_real_distribution<double> rand1(0,99);
+    // uniform_real_distribution<double> rand2(-99,99);
     for(int i = 0; i < pNum; ++i){ // 枚举所有粒子
         particleMessage posNeedToAdd,spdNeedToAdd;
         posNeedToAdd.UsefulNum = rand() % (maxHananNum + 1);
         spdNeedToAdd.UsefulNum = posNeedToAdd.UsefulNum;
         for(int j = 0; j < maxHananNum; ++j){ // 枚举每个粒子的最大Hanan点的数量
             // TODO:此处选用的hanan点为随机生成某点后取最近的点,也许可优化
-            Vertex tmpMessage = nearestPoint(rand1(rng),rand1(rng));
+            Vertex tmpMessage = nearestPoint((int)rand1(rng),(int)rand1(rng));
             posNeedToAdd.BasicMessage.push_back(tmpMessage);
             spdNeedToAdd.BasicMessage.push_back(Vertex{0,0,0});
         }
@@ -166,6 +169,8 @@ void PSOAlgorithm::init(){
 
 //pNum:粒子数量,iters:迭代次数
 PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
+    spdMax = 100,spdMin = -100;
+    posMax = 100,posMin = -1;
     randGraph();
     getHananPoints();
     getPointsBelong();
@@ -175,17 +180,25 @@ PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
 }
 
 //该函数负责处理越界的情况
-void dealOutOfBounds(Vertex *which,int multiple = 1){
-    if(which->xAxis <= -100 * multiple)  which->xAxis = -100 * multiple;    
-    if(which->xAxis >=  100 * multiple)  which->xAxis =  100 * multiple;    
-    if(which->yAxis <= -100 * multiple)  which->yAxis = -100 * multiple;
-    if(which->yAxis >=  100 * multiple)  which->yAxis =  100 * multiple;
+Vertex PSOAlgorithm::dealOutOfBounds(Vertex which,bool isSpeed){
+    Vertex now;
+    int minBound = posMin,          maxBouns = posMax;
+    if(isSpeed) minBound = spdMin,  maxBouns = spdMax;
+
+    if(which.xAxis <= minBound)    now.xAxis = minBound + 1;
+    if(which.xAxis >= maxBouns)    now.xAxis = maxBouns - 1;  
+
+    if(which.yAxis <= minBound)    now.yAxis = minBound + 1;
+    if(which.yAxis >= maxBouns)    now.yAxis = maxBouns - 1;
+    return now;
 }
 
-double PSOAlgorithm::CoreAlgorithm(){
+void PSOAlgorithm::CoreAlgorithm(){
     static mt19937 rng;
     uniform_real_distribution<double> randNum(0,1);
-    for(int step = 1; step <= iters; ++step){
+
+    double nowGobalBestAns = INF;
+    for(int step = 1; step < iters; ++step){
         double omiga = 0.9 - (double)step / iters * 0.5;
 
         for(int i = 0; i < pNum; ++i){            
@@ -198,8 +211,8 @@ double PSOAlgorithm::CoreAlgorithm(){
                 pos[i][nowPoint] = pos[i][nowPoint] + spd[i][nowPoint];
 
                 // 越界处理
-                dealOutOfBounds(&spd[i][nowPoint],2);
-                dealOutOfBounds(&pos[i][nowPoint],1);
+                spd[i][nowPoint] = dealOutOfBounds(spd[i][nowPoint],1);
+                spd[i][nowPoint] = dealOutOfBounds(pos[i][nowPoint],0);
             }
 
             // 取得更新后粒子的有效信息
@@ -213,24 +226,30 @@ double PSOAlgorithm::CoreAlgorithm(){
         } 
         for(int i = 0; i < pNum; ++i){
             MatrixXd tmpBest;
-            tmpBest = fTest.col(i);
+            tmpBest = fTest.col(i); // FIXME: 存疑
             Index minRow,minCol;
             tmpBest.minCoeff(&minRow,&minCol);
             pBest[i] = posMat(minRow,i);
         }
-        gBest = *min_element(pBest.begin(),pBest.end()); 
+        Index minRow,minCol;
+        fTest.row(step).minCoeff((&minRow,&minCol));
+        if(fTest(minRow,minCol) < nowGobalBestAns){
+            nowGobalBestAns = fTest(minRow,minCol);
+            gBest = posMat(minCol,minCol);
+        }
     }
+    return;
 }
 
 void PSOAlgorithm::PrintAlgorithmAns(){
     printf("生成的随机点:\n");
     for(int i = 0; i < basicPoints.size(); ++i){
-        printf("随机点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,basicPoints[i].xAxis,basicPoints[i].yAxis);
+        printf("随机点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)basicPoints[i].xAxis,(int)basicPoints[i].yAxis);
     }
 
     printf("PSO算法最优结果使用的hanan点:\n");
     for(int i = 0; i < gBest.UsefulNum; ++i){
-        printf("hanan点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,gBest[i].xAxis,gBest[i].yAxis);
+        printf("hanan点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)gBest[i].xAxis,(int)gBest[i].yAxis);
     }
 
     printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",kruskalAlgorithm(gBest.GetUsefulMessage()));
