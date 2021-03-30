@@ -72,6 +72,9 @@ UNS::UNS(){
 }
 
 int UNS::FindFather(int x){
+    if(x > MAX_VERTEX){
+        LogError("UNS out of bounds!, need to find point:%d",x);
+    }
     if(fatherPoint[x] == x)  return x;
     return fatherPoint[x] = FindFather(fatherPoint[x]);
 }

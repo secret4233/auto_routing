@@ -100,15 +100,18 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
     vector<Vertex> nowPoints = basicPoints;
     nowPoints.insert(nowPoints.end(),randPoints.begin(),randPoints.end());
 
+    // LogDebug("krskalAlgorithm nowPoints size:%d",(int)nowPoints.size());
+
     // 给随机点生成编号
     for(int i = 0; i < nowPoints.size(); ++i){
-        if(nowPoints[i].which == 0){
-            if(i == 0){
-                LogError("firstPoint is zero");
-                return -1;
-            }
-            nowPoints[i].which = nowPoints[i - 1].which + 1;
-        }
+        // if(nowPoints[i].which == 0){
+        //     if(i == 0){
+        //         LogError("firstPoint is zero");
+        //         return -1;
+        //     }
+        //     nowPoints[i].which = nowPoints[i - 1].which + 1;
+        // }
+        nowPoints[i].which = i;
     }
 
     vector<Edge> allEdge;
@@ -122,6 +125,8 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
         }
     }
     sort(allEdge.begin(),allEdge.end());
+
+
     class UNS dict;
     double nowAns = 0.0;
     for(auto it = allEdge.begin(); it !=  allEdge.end(); it++){
@@ -163,7 +168,9 @@ void PSOAlgorithm::init(){
     }
     Index minRow,minCol;
     fTest.row(0).minCoeff((&minRow,&minCol));
-    gBest = posMat(minCol,minCol);
+    gBest = posMat(0,minCol);
+
+    LogInfo("PSOAlgorithm init complete");
 }
 
 
@@ -177,6 +184,7 @@ PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
     init();
     vector<Vertex> tmp;
     kruskalAns = kruskalAlgorithm(tmp);
+    LogInfo("PSOAlgorithm::PSOAlgorithm complete");
 }
 
 //该函数负责处理越界的情况
@@ -233,10 +241,11 @@ void PSOAlgorithm::CoreAlgorithm(){
         }
         Index minRow,minCol;
         fTest.row(step).minCoeff((&minRow,&minCol));
-        if(fTest(minRow,minCol) < nowGobalBestAns){
-            nowGobalBestAns = fTest(minRow,minCol);
-            gBest = posMat(minCol,minCol);
+        if(fTest(step,minCol) < nowGobalBestAns){
+            nowGobalBestAns = fTest(step,minCol);
+            gBest = posMat(step,minCol);
         }
+        LogDebug("PSOAlgorithm CoreAlgorithm step%d complete",step);
     }
     return;
 }
@@ -252,7 +261,8 @@ void PSOAlgorithm::PrintAlgorithmAns(){
         printf("hanan点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)gBest[i].xAxis,(int)gBest[i].yAxis);
     }
 
-    printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",kruskalAlgorithm(gBest.GetUsefulMessage()));
+    double PSOAns = kruskalAlgorithm(gBest.GetUsefulMessage());
+    printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",PSOAns);
 
     printf("最小生成树求得的值:%lf\n",kruskalAns);
     

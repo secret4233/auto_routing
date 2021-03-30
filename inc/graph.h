@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int MAX_LINE = 50;
+const int MAX_LINE = 100;
 const int MAX_VERTEX = MAX_LINE * MAX_LINE + 10;           //点数
 const int MAX_EDGE = MAX_VERTEX * 8 + 10;    //边数
 

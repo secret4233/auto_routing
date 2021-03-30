@@ -21,6 +21,9 @@ struct particleMessage{
         return result;
     }
     Vertex &operator [] (int x){
+        if(x >= BasicMessage.size()){
+            LogError("particleMessage out of bound! BasicMessage.size:%d,need to find:%d",(int)BasicMessage.size(),x);
+        }
         return BasicMessage[x];
     }
 };
@@ -42,7 +45,7 @@ private:
 
     //这一块为核心算法内部使用变量
 
-    //pNum:粒子数量,iters:迭代次数
+    //pNum:粒子数量,iters:迭代次数,maxHananNum:最大的hanan点数量
     int iters,pNum,maxHananNum;
     int spdMax,spdMin,posMax,posMin;    // 阈值范围,左开右开
     vector<particleMessage> pBest;      // 各粒子求得的最优{x1,x2...}
