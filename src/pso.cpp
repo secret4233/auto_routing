@@ -20,7 +20,7 @@ void PSOAlgorithm::randGraph(){
 }
 
 
-void PSOAlgorithm::getHananPoints(){
+void PSOAlgorithm::getHananPoints(){                                                                                                                                                                                                                                                                                               
     // Axes:Axis的复数形式
     vector<int> xAxes,yAxes;
     set<pair<int,int>> dict; //用于检验元素是否重复,简易树套树(doge)
@@ -174,8 +174,16 @@ PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
     kruskalAns = kruskalAlgorithm(tmp);
 }
 
+//该函数负责处理越界的情况
+void dealOutOfBounds(Vertex *which,int multiple = 1){
+    if(which->xAxis <= -100 * multiple)  which->xAxis = -100 * multiple;    
+    if(which->xAxis >=  100 * multiple)  which->xAxis =  100 * multiple;    
+    if(which->yAxis <= -100 * multiple)  which->yAxis = -100 * multiple;
+    if(which->yAxis >=  100 * multiple)  which->yAxis =  100 * multiple;
+}
+
 double PSOAlgorithm::CoreAlgorithm(){
-   static mt19937 rng;
+    static mt19937 rng;
     uniform_real_distribution<double> randNum(0,1);
     for(int step = 1; step <= iters; ++step){
         double omiga = 0.9 - (double)step / iters * 0.5;
@@ -188,6 +196,10 @@ double PSOAlgorithm::CoreAlgorithm(){
                                     + (pBest[i][nowPoint] - pos[i][nowPoint]) * 2 * randNum(rng)
                                     + (gBest[nowPoint] - pos[i][nowPoint]) * 2 * randNum(rng);
                 pos[i][nowPoint] = pos[i][nowPoint] + spd[i][nowPoint];
+
+                // 越界处理
+                dealOutOfBounds(&spd[i][nowPoint],2);
+                dealOutOfBounds(&pos[i][nowPoint],1);
             }
 
             // 取得更新后粒子的有效信息
