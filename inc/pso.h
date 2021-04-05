@@ -31,7 +31,7 @@ struct particleMessage{
 class PSOAlgorithm{
 private:
     double kruskalAns,algorithmAns;
-    vector<Vertex> basicPoints; // TODO 是否使用自定义模板有待考虑
+    vector<Vertex> basicPoints; 
     vector<Vertex> hananPoints; // hanan点集合
     int pointsBelong[200][200]; // 距离某点最近的hanan点
     double kruskalAlgorithm(const vector<Vertex>&);

@@ -229,7 +229,7 @@ void PSOAlgorithm::CoreAlgorithm(){
         } 
         for(int i = 0; i < pNum; ++i){
             MatrixXd tmpBest;
-            tmpBest = fTest.col(i); // FIXME: 存疑
+            tmpBest = fTest.col(i); 
             Index minRow,minCol;
             tmpBest.minCoeff(&minRow,&minCol);
             pBest[i] = posMat(minRow,i);

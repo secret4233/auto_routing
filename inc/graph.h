@@ -10,8 +10,6 @@ const int MAX_LINE = 100;
 const int MAX_VERTEX = MAX_LINE * MAX_LINE + 10;           //点数
 const int MAX_EDGE = MAX_VERTEX * 8 + 10;    //边数
 
-// TODO 使用int还是double需要再次确定
-// TODO 内部变量考虑vector?
 
 typedef struct graphEdgeMessage{
     int from,u,v;
