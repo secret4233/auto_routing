@@ -26,7 +26,7 @@ int main(){
     for(int i = 1; i <= calSum; ++i){
         double beginTime,useTime,kruAns,PSOAns,rate;
         beginTime = clock();
-        PSOAlgorithm method2(40,500,20);
+        PSOAlgorithm method2(20,500,20);
         method2.CoreAlgorithm();
         useTime = (clock() - beginTime) / 1000;
         averageTime += useTime;

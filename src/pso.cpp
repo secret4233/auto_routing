@@ -86,6 +86,20 @@ Vertex PSOAlgorithm::nearestPoint(int x,int y){
     return hananPoints[which];
 }
 
+// Vertex PSOAlgorithm::nearestPoint(int x,int y){
+//     int which = 0,min = 1e9;
+//     Vertex tmp;
+//     tmp.xAxis = x,tmp.yAxis = y;
+//     for(int i = 0; i < hananPoints.size(); ++i){
+//         int nowDistance = CalDistance(tmp,hananPoints[i]);
+//         if(min > nowDistance){
+//             min = nowDistance;
+//             which = i;
+//         }
+//     }
+//     return hananPoints[which];
+// }
+
 
 /*
 kruskal算法:充当代价函数
