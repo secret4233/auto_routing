@@ -36,7 +36,7 @@ private:
     int pointsBelong[200][200]; // 距离某点最近的hanan点
     double kruskalAlgorithm(const vector<Vertex>&);
     Vertex dealOutOfBounds(Vertex,bool);
-    void randGraph();
+    void randGraph(int);
     void getHananPoints();
     void getPointsBelong();
     void init();
@@ -57,9 +57,11 @@ private:
     Matrix<particleMessage, Dynamic, Dynamic> posMat;   // 每次迭代,各个粒子的最优解{x1,x2...}
 
 public:
-    PSOAlgorithm(int,int);
+    PSOAlgorithm(int,int,int);
     void CoreAlgorithm();
     void PrintAlgorithmAns();
+    double GetKruskalAns();
+    double GetPSOAns();
 };
 
 

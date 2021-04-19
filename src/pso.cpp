@@ -2,8 +2,8 @@
 
 // 生成随机数量(10-20),位置不定(0-99)的点
 // FIXME 注意去重
-void PSOAlgorithm::randGraph(){
-    int randPointNum = rand() % 11 + 10;
+void PSOAlgorithm::randGraph(int randPointNum){
+    //int randPointNum = 20;
 
     // 此处规定hanan点数量,为总随机点数-2
     maxHananNum = randPointNum - 2;
@@ -168,10 +168,10 @@ void PSOAlgorithm::init(){
 
 
 //pNum:粒子数量,iters:迭代次数
-PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters):pNum(_pNum),iters(_iters){
+PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters,int randPointNum):pNum(_pNum),iters(_iters){
     spdMax = 100,spdMin = -100;
     posMax = 100,posMin = -1;
-    randGraph();
+    randGraph(randPointNum);
     getHananPoints();
     getPointsBelong();
     init();
@@ -242,6 +242,8 @@ void PSOAlgorithm::CoreAlgorithm(){
         }
         // LogDebug("PSOAlgorithm CoreAlgorithm step%d complete",step);
     }
+
+    algorithmAns = kruskalAlgorithm(gBest.GetUsefulMessage());
     return;
 }
 
@@ -256,10 +258,17 @@ void PSOAlgorithm::PrintAlgorithmAns(){
         printf("hanan点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)gBest[i].xAxis,(int)gBest[i].yAxis);
     }
 
-    double PSOAns = kruskalAlgorithm(gBest.GetUsefulMessage());
-    printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",PSOAns);
+    printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",algorithmAns);
 
     printf("最小生成树求得的值:%lf\n",kruskalAns);
     
     return;
+}
+
+double PSOAlgorithm::GetKruskalAns(){
+    return kruskalAns;
+}
+
+double PSOAlgorithm::GetPSOAns(){
+    return algorithmAns;
 }

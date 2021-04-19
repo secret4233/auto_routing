@@ -11,7 +11,7 @@ using namespace std;
 
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
-    
+    srand(time(NULL));
     // int lineNum = 50; 
     // AStar method1(lineNum * lineNum,1);
     // int start = method1.GetGraphVertexNum(30,0);
@@ -20,10 +20,34 @@ int main(){
 
     // printf("%d -> %d %lf\n",start,end,ans);
 
-    PSOAlgorithm method2(20,1000);
+    double averageTime,averageCost;
+    printf("\n");
+    const int calSum = 5;
+    for(int i = 1; i <= calSum; ++i){
+        double beginTime,useTime,kruAns,PSOAns,rate;
+        beginTime = clock();
+        PSOAlgorithm method2(40,500,20);
+        method2.CoreAlgorithm();
+        useTime = (clock() - beginTime) / 1000;
+        averageTime += useTime;
 
-    method2.CoreAlgorithm();
-    method2.PrintAlgorithmAns();
+        kruAns = method2.GetKruskalAns();
+        PSOAns = method2.GetPSOAns();   
+        rate = (kruAns - PSOAns) / kruAns;
+        averageCost += rate;
+
+        printf("第%d次:\n运行时间:%lfms\n",i,useTime);
+        printf("kruskal:%d,\tPSO:%d\n",(int)kruAns,(int)PSOAns);
+        printf("相较而言消耗减少:%lf%% \n",rate * 100);
+    }
+
+    averageCost /= calSum;
+    averageTime /= calSum;
+
+    printf("平均时长:%lfms\n",averageTime);
+    printf("平均消耗减少:%lf%%\n",averageCost * 100);
+    
+    printf("\n");
 
     return 0;
 }
