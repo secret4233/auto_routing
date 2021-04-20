@@ -22,6 +22,8 @@ void randObstacle(){
         obstacleMessage[i][0].second = (rand() % (sqrtVertexNum - 2)) + 1;
         obstacleMessage[i][1].first = (rand() % (sqrtVertexNum - 2)) + 1;
         obstacleMessage[i][1].second = (rand() % (sqrtVertexNum - 2)) + 1;
+        // obstacleMessage[i][1].first = min(obstacleMessage[i][0].first + rand() % 10,sqrtVertexNum - 1);
+        // obstacleMessage[i][1].second = min(obstacleMessage[i][1].second + rand() % 10,sqrtVertexNum - 1);
 
         if(obstacleMessage[i][0].first > obstacleMessage[i][1].first){
             swap(obstacleMessage[i][0].first,obstacleMessage[i][1].first);
