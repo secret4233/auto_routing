@@ -12,20 +12,22 @@ using namespace std;
 void PrintKruAndPSO();
 void PrintNearest();
 void PrintAStar();
+void PrintBFSAndAStar();
 
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
+    PrintBFSAndAStar();
     //PrintAStar();
-    PrintKruAndPSO();
+    //PrintKruAndPSO();
     //PrintNearest();
 
     return 0;
 }
 
 void PrintAStar(){
-   int lineNum = 50; 
-    AStar method1(lineNum * lineNum,1);
+    int lineNum = 50; 
+    AStar method1(lineNum * lineNum);
     int start = method1.GetGraphVertexNum(rand()%lineNum,0);
     int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
     double ans = method1.CoreAlgorithm(start,end);
@@ -33,6 +35,18 @@ void PrintAStar(){
     printf("%d -> %d %lf\n",start,end,ans);
     printf("start: x:%d,y:%d\n",start/lineNum,start%lineNum);
     printf("end: x:%d,y:%d\n",end/lineNum,end%lineNum); 
+}
+
+void PrintBFSAndAStar(){
+    int lineNum = 50;
+    AStar method1(lineNum * lineNum);
+    int start = method1.GetGraphVertexNum(rand()%lineNum,0);
+    int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
+    
+    int BFSAns = method1.BFSAlgorithn(start,end);
+    int AStarAns = method1.CoreAlgorithm(start,end);
+
+    printf("BFS算法求得的解:%d,A*算法求得的解:%d\n",BFSAns,AStarAns);
 }
 
 void PrintKruAndPSO(){
