@@ -17,8 +17,8 @@ int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
     //PrintAStar();
-    //PrintKruAndPSO();
-    PrintNearest();
+    PrintKruAndPSO();
+    //PrintNearest();
 
     return 0;
 }
@@ -60,7 +60,7 @@ void PrintKruAndPSO(){
     averageCost /= calSum;
     averageTime /= calSum;
 
-    printf("平均时长:%lfms\n",averageTime);
+    printf("\n平均时长:%lfms\n",averageTime);
     printf("平均消耗减少:%lf%%\n",averageCost * 100);
     
     printf("\n"); 
