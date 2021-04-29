@@ -7,7 +7,21 @@
 
 // 该函数用于给定图的情况
 // 通过先确定点的数量,后续再添加边来处理
-Graph::Graph(int _vecNum):vecNum(_vecNum){}
+Graph::Graph(int _vecNum):vecNum(_vecNum){
+    int MAX_VERTEX = _vecNum + 10;         
+    int MAX_EDGE = MAX_VERTEX * 8;   
+
+    head = new int[MAX_VERTEX];
+    e = new Edge[MAX_EDGE];
+    vx = new Vertex[MAX_VERTEX];
+
+}
+
+Graph::~Graph(){
+    delete head;
+    delete e;
+    delete vx;
+}
 
 // 添加有向边
 void Graph::AddEdge(int u,int v,double w){
@@ -46,6 +60,7 @@ const Edge *Graph::GetFirstEdge(int graphVertex){
 const Edge *Graph::GetNxtEdge(const Edge *edge){ 
     if(edge->from > edgeNum){
         LogError("边数不在预期范围内,edge->from:%d",edge->from);
+        LogError("目前边数edgeNum为:%d",edgeNum);
         return NULL;
     }
     if(edge->from == 0)  return NULL;
@@ -64,6 +79,9 @@ const Vertex *Graph::GetVertex(int graphVertex){
 double CalDistance(const Vertex& x,const Vertex& y){
     return abs(x.xAxis - y.xAxis) + abs(x.xAxis - y.yAxis); 
 }
+
+
+// 并查集部分
 
 UNS::UNS(){
     for(int i = 0; i < MAX_VERTEX; ++i){

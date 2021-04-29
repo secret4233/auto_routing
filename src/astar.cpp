@@ -86,17 +86,20 @@ void AStar::randGraph(){
 }
 
 //要求_vertexNum为平方数
-AStar::AStar(int _vertexNum):g(_vertexNum){
+AStar::AStar(int _vertexNum):g(_vertexNum),vertexNum(_vertexNum){
+    vis = new bool[_vertexNum + 10];
     algorithmAns = -1;
     sqrtVertexNum = (int)sqrt(_vertexNum);
     randGraph();
     LogInfo("AStar init complete");
 };
 
-
+AStar::~AStar(){
+    delete vis;
+}
 
 double AStar::CoreAlgorithm(int start,int end){
-    memset(vis,0,sizeof vis);
+    memset(vis,0,sizeof(bool) * (vertexNum + 10));
     priority_queue<Node> q;
     q.push((Node){start,0,calCost(start,end)});
     LogInfo("A*算法开始");
@@ -125,7 +128,7 @@ double AStar::CoreAlgorithm(int start,int end){
 }
 
 double AStar::BFSAlgorithn(int start,int end){
-    memset(vis,0,sizeof vis);
+    memset(vis,0,sizeof(bool) * (vertexNum + 10));
     priority_queue<Node> q;
     q.push((Node){start,0,0});
     LogInfo("BFS算法开始");

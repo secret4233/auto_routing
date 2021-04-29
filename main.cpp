@@ -38,15 +38,36 @@ void PrintAStar(){
 }
 
 void PrintBFSAndAStar(){
-    int lineNum = 50;
-    AStar method1(lineNum * lineNum);
-    int start = method1.GetGraphVertexNum(rand()%lineNum,0);
-    int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
-    
-    int BFSAns = method1.BFSAlgorithn(start,end);
-    int AStarAns = method1.CoreAlgorithm(start,end);
+    int lineNum = 1000,calNum = 5;
 
-    printf("BFS算法求得的解:%d,A*算法求得的解:%d\n",BFSAns,AStarAns);
+    double averageRate = 0;
+    for(int i = 1; i <= calNum; ++i){
+        AStar method1(lineNum * lineNum);
+        int start = method1.GetGraphVertexNum(rand()%lineNum,0);
+        int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
+
+        printf("start:%d,end:%d\n",start,end);
+
+
+        double beginTime[5],useTime[5],rate;
+
+
+        beginTime[0] = clock();
+        int BFSAns = method1.BFSAlgorithn(start,end);
+        useTime[0] = (clock() - beginTime[0]) / 1000;
+
+        beginTime[1] = clock();
+        int AStarAns = method1.CoreAlgorithm(start,end);
+        useTime[1] = (clock() - beginTime[1]) / 1000;
+
+        rate = (useTime[0] - useTime[1]) / useTime[0];
+        averageRate += rate;
+
+        printf("\n第%d次:\n",i);
+        printf("BFS算法时间:%lfms，A*算法时间:%lfms\n",useTime[0],useTime[1]);
+        printf("相对时间减少:%lf%%\n",rate * 100); 
+        
+    }
 }
 
 void PrintKruAndPSO(){

@@ -6,9 +6,6 @@
 
 using namespace std;
 
-const int MAX_LINE = 100;
-const int MAX_VERTEX = MAX_LINE * MAX_LINE + 10;           //点数
-const int MAX_EDGE = MAX_VERTEX * 8 + 10;    //边数
 
 
 typedef struct graphEdgeMessage{
@@ -43,12 +40,13 @@ double CalDistance(const Vertex&,const Vertex&);
 class Graph{
 private:
     int vecNum,edgeNum; 
-    int head[MAX_VERTEX];
-    Edge e[MAX_EDGE];
-    Vertex vx[MAX_VERTEX];
+    int *head;
+    Edge *e;
+    Vertex *vx;
 public:
     Graph(int _vecNum);
-    Graph();
+    //Graph();
+    ~Graph();
     void AddEdge(int u,int v,double w); 
     void DbAddEdge(int u,int v,double w);
     void AddVertex(int which,int x,int y);
@@ -59,6 +57,8 @@ public:
 
 
 // 并查集
+
+const int MAX_VERTEX = 10010;
 class UNS{
 private:
     int fatherPoint[MAX_VERTEX];

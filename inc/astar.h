@@ -26,9 +26,10 @@ class AStar{
 private:
     // algorithmAns: 算法结束后得出的结果,若为-1.0则为无解或未求解
     double algorithmAns,BFSAns;
+    int vertexNum;
     // k:表名算法求的为k短路,默认为1,即为最短路
     Graph g;
-    bool vis[MAX_VERTEX];
+    bool* vis;
     // 创建有障碍的随机图
     void randGraph();
 
@@ -36,6 +37,7 @@ private:
     double calCost(int,int);
 public:
     AStar(int);
+    ~AStar();
     double CoreAlgorithm(int star,int end);
     double BFSAlgorithn(int star,int end);
     int GetGraphVertexNum(int,int);
