@@ -79,6 +79,9 @@ void PSOAlgorithm::getPointsBelong(){
 }
 
 Vertex PSOAlgorithm::nearestPoint(int x,int y){
+    if(useNewNearest = 1){
+        nearestPointNew(x,y);
+    }
     int which = pointsBelong[x][y];
     if(which == -1 || which >= hananPoints.size()){
         LogError("nearestPoint error, xAxis:%d,yAxis:%d",x,y);
@@ -86,19 +89,19 @@ Vertex PSOAlgorithm::nearestPoint(int x,int y){
     return hananPoints[which];
 }
 
-// Vertex PSOAlgorithm::nearestPoint(int x,int y){
-//     int which = 0,min = 1e9;
-//     Vertex tmp;
-//     tmp.xAxis = x,tmp.yAxis = y;
-//     for(int i = 0; i < hananPoints.size(); ++i){
-//         int nowDistance = CalDistance(tmp,hananPoints[i]);
-//         if(min > nowDistance){
-//             min = nowDistance;
-//             which = i;
-//         }
-//     }
-//     return hananPoints[which];
-// }
+Vertex PSOAlgorithm::nearestPointNew(int x,int y){
+    int which = 0,min = 1e9;
+    Vertex tmp;
+    tmp.xAxis = x,tmp.yAxis = y;
+    for(int i = 0; i < hananPoints.size(); ++i){
+        int nowDistance = CalDistance(tmp,hananPoints[i]);
+        if(min > nowDistance){
+            min = nowDistance;
+            which = i;
+        }
+    }
+    return hananPoints[which];
+}
 
 
 /*
@@ -150,6 +153,8 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
 void PSOAlgorithm::init(){
     posMat.resize(iters,pNum); 
     fTest.resize(iters,pNum);       fTest.fill(INF);
+
+    pBest.clear();  pos.clear();    spd.clear();
     static mt19937 rng;
     uniform_real_distribution<double> rand1(0,99);
     // uniform_real_distribution<double> rand2(-99,99);
@@ -181,17 +186,21 @@ void PSOAlgorithm::init(){
 }
 
 
-//pNum:粒子数量,iters:迭代次数
+//pNum:粒子数量,iters:迭代次数,randPointNum:随机点数量
 PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters,int randPointNum):pNum(_pNum),iters(_iters){
     spdMax = 100,spdMin = -100;
     posMax = 100,posMin = -1;
     randGraph(randPointNum);
     getHananPoints();
     getPointsBelong();
-    init();
+    //init();
     vector<Vertex> tmp;
     kruskalAns = kruskalAlgorithm(tmp);
     LogInfo("PSOAlgorithm::PSOAlgorithm complete");
+}
+
+void PSOAlgorithm::SetNearestAlgorithm(bool _useNewNearset){
+    useNewNearest = _useNewNearset;
 }
 
 //该函数负责处理越界的情况
@@ -209,6 +218,7 @@ Vertex PSOAlgorithm::dealOutOfBounds(Vertex which,bool isSpeed){
 }
 
 void PSOAlgorithm::CoreAlgorithm(){
+    init();
     static mt19937 rng;
     uniform_real_distribution<double> randNum(0,1);
 
