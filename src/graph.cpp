@@ -21,6 +21,7 @@ Graph::~Graph(){
     delete head;
     delete e;
     delete vx;
+    LogDebug("Graph 类内存释放");
 }
 
 // 添加有向边

@@ -96,6 +96,7 @@ AStar::AStar(int _vertexNum):g(_vertexNum),vertexNum(_vertexNum){
 
 AStar::~AStar(){
     delete vis;
+    LogDebug("AStar 类内存释放");
 }
 
 double AStar::CoreAlgorithm(int start,int end){

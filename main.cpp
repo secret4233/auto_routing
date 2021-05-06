@@ -46,11 +46,7 @@ void PrintBFSAndAStar(){
         int start = method1.GetGraphVertexNum(rand()%lineNum,0);
         int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
 
-        printf("start:%d,end:%d\n",start,end);
-
-
         double beginTime[5],useTime[5],rate;
-
 
         beginTime[0] = clock();
         int BFSAns = method1.BFSAlgorithn(start,end);
@@ -63,6 +59,10 @@ void PrintBFSAndAStar(){
         rate = (useTime[0] - useTime[1]) / useTime[0];
         averageRate += rate;
 
+        //printf("start:%d,end:%d\n",start,end);
+        if(BFSAns != AStarAns){
+            printf("Error:BFSAns:%d,AStarAns:%d\n",BFSAns,AStarAns);
+        }
         printf("\n第%d次:\n",i);
         printf("BFS算法时间:%lfms，A*算法时间:%lfms\n",useTime[0],useTime[1]);
         printf("相对时间减少:%lf%%\n",rate * 100); 
