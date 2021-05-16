@@ -39,6 +39,10 @@ void Graph::DbAddEdge(int u,int v,double w){
 
 // 图类加点
 void Graph::AddVertex(int which,int xAxis,int yAxis){
+    if(which > vecNum){
+        LogError("节点超出范围,graphVertex:%d",which);
+        return;
+    }
     vx[which].which = which;
     vx[which].xAxis = xAxis;
     vx[which].yAxis = yAxis;

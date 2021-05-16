@@ -29,14 +29,16 @@ private:
     int vertexNum;
     // k:表名算法求的为k短路,默认为1,即为最短路
     Graph g;
-    bool* vis;
+    int* vis;
     // 创建有障碍的随机图
     void randGraph();
+    void readGraph(vector<pair<int,int>>);
 
     void addEdge(int,int); 
     double calCost(int,int);
 public:
     AStar(int);
+    AStar(int,vector<pair<int,int>>);
     ~AStar();
     double CoreAlgorithm(int star,int end);
     double BFSAlgorithn(int star,int end);

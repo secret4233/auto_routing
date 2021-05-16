@@ -13,16 +13,37 @@ void PrintKruAndPSO();
 void PrintNearest();
 void PrintAStar();
 void PrintBFSAndAStar();
+void TestAStarRead();
 
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
-    PrintBFSAndAStar();
+    //PrintBFSAndAStar();
+    TestAStarRead();
     //PrintAStar();
     //PrintKruAndPSO();
     //PrintNearest();
 
     return 0;
+}
+
+
+void TestAStarRead(){
+    int lineNum = 30;
+    vector<pair<int,int>> tmp;
+    tmp.push_back(make_pair(2,2));
+    tmp.push_back(make_pair(4,4));
+    tmp.push_back(make_pair(5,5));
+    tmp.push_back(make_pair(6,6));
+
+    AStar method1(lineNum * lineNum,tmp);
+    int start = method1.GetGraphVertexNum(rand()%lineNum,0);
+    int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
+    double ans = method1.CoreAlgorithm(start,end);
+
+    printf("%d -> %d %lf\n",start,end,ans);
+    printf("start: x:%d,y:%d\n",start/lineNum,start%lineNum);
+    printf("end: x:%d,y:%d\n",end/lineNum,end%lineNum); 
 }
 
 void PrintAStar(){

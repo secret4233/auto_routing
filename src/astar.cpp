@@ -16,7 +16,7 @@ int sqrtVertexNum;
 pair<int,int> obstacleMessage[maxObstacleNum][2];
 
 void randObstacle(){
-    obstacleNum = rand() % 3 + 1;
+    obstacleNum = rand() % 3 + 1; //随机生成三个障碍物
     for(int i = 0; i < obstacleNum; ++i){
         obstacleMessage[i][0].first = (rand() % (sqrtVertexNum - 2)) + 1;
         obstacleMessage[i][0].second = (rand() % (sqrtVertexNum - 2)) + 1;
@@ -40,7 +40,7 @@ bool isInObstacle(int xAxis,int yAxis){
     for(int i = 0; i < obstacleNum; ++i){
         if(xAxis >= obstacleMessage[i][0].first && xAxis <= obstacleMessage[i][1].first
             && yAxis >= obstacleMessage[i][0].second && yAxis <= obstacleMessage[i][1].second){
-                // LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
+                LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
                 return true;
             }
     }
@@ -83,16 +83,48 @@ void AStar::randGraph(){
             addEdge(i,j);
         }
     }
+    LogInfo("AStar rand graph complete");
+}
+
+void AStar::readGraph(vector<pair<int,int>> dict){
+    // 处理障碍，记录到数组中
+    obstacleNum = dict.size() / 2;
+    for(int i = 0; i < dict.size(); i += 2){
+        obstacleMessage[i / 2][0] = dict[i];
+        obstacleMessage[i / 2][1] = dict[i + 1];
+        LogDebug("A* rand graph: left %02d %02d",obstacleMessage[i/2][0].first,obstacleMessage[i/2][0].second);
+        LogDebug("A* rand graph: right %02d %02d",obstacleMessage[i/2][1].first,obstacleMessage[i/2][1].second);
+    }
+    for(int i = 0 ; i < sqrtVertexNum; ++i){
+        for(int j = 0; j < sqrtVertexNum; ++j){
+            if(isInObstacle(i,j))   continue;
+            g.AddVertex(GetGraphVertexNum(i,j),i,j);
+            addEdge(i,j);
+        }
+    }
+    LogInfo("AStar read graph complete");
 }
 
 //要求_vertexNum为平方数
 AStar::AStar(int _vertexNum):g(_vertexNum),vertexNum(_vertexNum){
-    vis = new bool[_vertexNum + 10];
+    vis = new int[_vertexNum + 10];
     algorithmAns = -1;
     sqrtVertexNum = (int)sqrt(_vertexNum);
     randGraph();
     LogInfo("AStar init complete");
 };
+
+AStar::AStar(int _vertexNum,vector<pair<int,int>> _obstacle):g(_vertexNum),vertexNum(_vertexNum){
+    vis = new int[_vertexNum + 10];
+    algorithmAns = -1;
+    sqrtVertexNum = (int)sqrt(_vertexNum);
+    if(_obstacle.size() % 2){
+        LogError("传入数据格式有误");
+        return;
+    }
+    readGraph(_obstacle);
+    LogInfo("AStar init complete");
+}
 
 AStar::~AStar(){
     delete vis;

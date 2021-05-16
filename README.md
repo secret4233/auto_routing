@@ -15,6 +15,7 @@ graph TD
     aStar -- 依赖于 --> Dijkstra
     pso -- 依赖于 --> Kruskal 
 
+    log["日志模块(内嵌于其他模块)"]
 
 ```
 
