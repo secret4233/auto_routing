@@ -19,8 +19,8 @@ int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
     //PrintBFSAndAStar();
-    TestAStarRead();
-    //PrintAStar();
+    //TestAStarRead();
+    PrintAStar();
     //PrintKruAndPSO();
     //PrintNearest();
 
@@ -56,6 +56,7 @@ void PrintAStar(){
     printf("%d -> %d %lf\n",start,end,ans);
     printf("start: x:%d,y:%d\n",start/lineNum,start%lineNum);
     printf("end: x:%d,y:%d\n",end/lineNum,end%lineNum); 
+    method1.PrintPath(start,end);
 }
 
 void PrintBFSAndAStar(){

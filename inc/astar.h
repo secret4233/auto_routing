@@ -40,8 +40,9 @@ public:
     AStar(int);
     AStar(int,vector<pair<int,int>>);
     ~AStar();
-    double CoreAlgorithm(int star,int end);
-    double BFSAlgorithn(int star,int end);
+    double CoreAlgorithm(int,int);
+    void PrintPath(int,int);
+    double BFSAlgorithn(int,int);
     int GetGraphVertexNum(int,int);
    
 };

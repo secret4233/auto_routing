@@ -132,7 +132,7 @@ AStar::~AStar(){
 }
 
 double AStar::CoreAlgorithm(int start,int end){
-    memset(vis,0,sizeof(bool) * (vertexNum + 10));
+    memset(vis,-1,sizeof(int) * (vertexNum + 10));
     priority_queue<Node> q;
     q.push((Node){start,0,calCost(start,end)});
     LogInfo("A*算法开始");
@@ -147,10 +147,10 @@ double AStar::CoreAlgorithm(int start,int end){
         for(const Edge *nxt = g.GetFirstEdge(u); nxt != NULL; nxt = g.GetNxtEdge(nxt)){
             int v = nxt->v;
             
-            if(vis[v])    continue; //该搜索路径下,已经访问过该节点,则无需入队
+            if(vis[v] != -1)    continue; //该搜索路径下,已经访问过该节点,则无需入队
             Node newX = oldX;  //继承访问过的节点,也可视为搜索路径
             newX.u = v; 
-            vis[v] = 1;
+            vis[v] = u;
             newX.h = calCost(v,end); 
             newX.dis = nxt->w + oldX.dis;
             q.push(newX);
@@ -161,7 +161,7 @@ double AStar::CoreAlgorithm(int start,int end){
 }
 
 double AStar::BFSAlgorithn(int start,int end){
-    memset(vis,0,sizeof(bool) * (vertexNum + 10));
+    memset(vis,-1,sizeof(int) * (vertexNum + 10));
     priority_queue<Node> q;
     q.push((Node){start,0,0});
     LogInfo("BFS算法开始");
@@ -176,14 +176,34 @@ double AStar::BFSAlgorithn(int start,int end){
         for(const Edge *nxt = g.GetFirstEdge(u); nxt != NULL; nxt = g.GetNxtEdge(nxt)){
             int v = nxt->v;
             
-            if(vis[v])    continue; //该搜索路径下,已经访问过该节点,则无需入队
+            if(vis[v] != -1)    continue; //该搜索路径下,已经访问过该节点,则无需入队
             Node newX = oldX;  //继承访问过的节点,也可视为搜索路径
             newX.u = v; 
-            vis[v] = 1;
+            vis[v] = u;
             newX.dis = nxt->w + oldX.dis;
             q.push(newX);
         }
     }
     LogInfo("该图不存在从起始点到终止点的路径");
     return BFSAns; 
+}
+
+void AStar::PrintPath(int start,int end){
+    vector<pair<int,int>> path;
+    int now = end;
+    while(1){
+        path.push_back(make_pair(now / sqrtVertexNum,now % sqrtVertexNum));
+        if(vis[now] == start){
+            now = vis[now];
+            path.push_back(make_pair(now / sqrtVertexNum,now % sqrtVertexNum));
+            break;
+        }
+        now = vis[now];
+    }
+    printf("\npath is:\n");
+    for(int i = path.size() - 1; i >= 0; --i){
+        printf("(%d %d)",path[i].first,path[i].second);
+        if(i != 0)  printf(" ->");
+        printf("\n");
+    }
 }
