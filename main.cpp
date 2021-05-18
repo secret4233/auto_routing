@@ -14,14 +14,16 @@ void PrintNearest();
 void PrintAStar();
 void PrintBFSAndAStar();
 void TestAStarRead();
+void PrintPSO();
 
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
     //PrintBFSAndAStar();
     //TestAStarRead();
-    PrintAStar();
+    //PrintAStar();
     //PrintKruAndPSO();
+    PrintPSO();
     //PrintNearest();
 
     return 0;
@@ -60,7 +62,7 @@ void PrintAStar(){
 }
 
 void PrintBFSAndAStar(){
-    int lineNum = 1000,calNum = 5;
+    int lineNum = 1800,calNum = 2;
 
     double averageRate = 0;
     for(int i = 1; i <= calNum; ++i){
@@ -93,13 +95,14 @@ void PrintBFSAndAStar(){
 }
 
 void PrintKruAndPSO(){
-   double averageTime,averageCost;
+    double averageTime,averageCost;
+    int averageKru,averagePSO;
     printf("\n");
-    const int calSum = 5;
+    const int calSum = 10;
     for(int i = 1; i <= calSum; ++i){
         double beginTime,useTime,kruAns,PSOAns,rate;
         beginTime = clock();
-        PSOAlgorithm method2(20,500,20);
+        PSOAlgorithm method2(20,500,5);
         method2.CoreAlgorithm();
         useTime = (clock() - beginTime) / 1000;
         averageTime += useTime;
@@ -109,14 +112,16 @@ void PrintKruAndPSO(){
         rate = (kruAns - PSOAns) / kruAns;
         averageCost += rate;
 
+        averageKru += (int)kruAns,averagePSO += PSOAns;
         printf("第%d次:\n运行时间:%lfms\n",i,useTime);
         printf("kruskal:%d,\tPSO:%d\n",(int)kruAns,(int)PSOAns);
         printf("相较而言消耗减少:%lf%% \n",rate * 100);
     }
 
-    averageCost /= calSum;
-    averageTime /= calSum;
+    averageCost /= calSum;  averageTime /= calSum;
+    averagePSO /= calSum;   averageKru /= calSum;
 
+    printf("\nKruskal:%d  PSO:%d\n",averageKru,averagePSO);
     printf("\n平均时长:%lfms\n",averageTime);
     printf("平均消耗减少:%lf%%\n",averageCost * 100);
     
@@ -154,4 +159,15 @@ void PrintNearest(){
 
     
     printf("\n");
+}
+
+
+void PrintPSO(){
+    printf("\n");
+    PSOAlgorithm method2(20,500,4);
+    method2.CoreAlgorithm();
+
+    method2.PrintAlgorithmAns();
+    
+    printf("\n"); 
 }
