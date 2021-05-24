@@ -15,6 +15,7 @@ void PrintAStar();
 void PrintBFSAndAStar();
 void TestAStarRead();
 void PrintPSO();
+void PrintPSOExample();
 
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
@@ -22,9 +23,10 @@ int main(){
     //PrintBFSAndAStar();
     //TestAStarRead();
     //PrintAStar();
-    PrintKruAndPSO();
-    //PrintPSO();
+    //PrintKruAndPSO();
+    PrintPSO();
     //PrintNearest();
+    PrintPSOExample();
 
     return 0;
 }
@@ -172,4 +174,19 @@ void PrintPSO(){
     method2.PrintAlgorithmAns();
     
     printf("\n"); 
+}
+
+
+void PrintPSOExample(){
+    printf("\n");
+    vector<pair<int,int>> dict;
+    dict.push_back(make_pair(39,54));
+    dict.push_back(make_pair(21,25));
+    dict.push_back(make_pair(89,10));
+    dict.push_back(make_pair(84,99));
+    PSOAlgorithm method2(20,500,dict);
+    method2.CoreAlgorithm();
+
+    method2.PrintAlgorithmAns();
+    printf("\n");
 }

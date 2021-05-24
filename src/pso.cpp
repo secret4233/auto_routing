@@ -1,6 +1,6 @@
 #include "pso.h"
 
-// 生成随机数量(10-20),位置不定(0-99)的点
+// 生成随机数量(10-20),位置不定(0-9999)的点
 // FIXME 注意去重
 void PSOAlgorithm::randGraph(int randPointNum){
     //int randPointNum = 20;
@@ -17,6 +17,19 @@ void PSOAlgorithm::randGraph(int randPointNum){
     }
     LogInfo("PSOAlgorithm randGraph complete");
     return;
+}
+
+void PSOAlgorithm::readGraph(vector<pair<int,int>> dict){
+    maxHananNum = dict.size() - 2;
+    Vertex tmp;
+    for(int i = 0; i < dict.size(); ++i){
+        tmp.which = i + 1;
+        tmp.xAxis = dict[i].first,tmp.yAxis = dict[i].second;
+        basicPoints.push_back(tmp);
+        LogInfo("PSOAlgothm basic point: which:%d\t,xAxis:%d\t,yAxis:%d\t",
+                i,(int)tmp.xAxis,(int)tmp.yAxis);
+    }
+    LogInfo("PSOAlgorithm readGraph complete");
 }
 
 
@@ -193,6 +206,27 @@ PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters,int randPointNum):pNum(_pNum),it
     spdMax = 10000,spdMin = -10000;
     posMax = 10000,posMin = -1;
     randGraph(randPointNum);
+    getHananPoints();
+    //getPointsBelong();
+    //init();
+    vector<Vertex> tmp;
+    kruskalAns = kruskalAlgorithm(tmp);
+    LogInfo("PSOAlgorithm::PSOAlgorithm complete");
+}
+
+void PSOAlgorithm::getBounds(vector<pair<int,int>> dict){
+    int maxCoordinate = -1,minCoordinate = 100000;
+    for(int i = 0; i < dict.size(); ++i){
+        maxCoordinate = max(maxCoordinate,max(dict[i].first,dict[i].second));
+        minCoordinate = min(minCoordinate,min(dict[i].first,dict[i].second));
+    }
+    spdMax = maxCoordinate - minCoordinate,spdMin = -spdMax;
+    posMax = maxCoordinate, posMin = minCoordinate;
+}
+
+PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters,vector<pair<int,int>> dict):pNum(_pNum),iters(_iters){
+    getBounds(dict);
+    readGraph(dict);
     getHananPoints();
     //getPointsBelong();
     //init();

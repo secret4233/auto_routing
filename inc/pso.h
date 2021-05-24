@@ -38,6 +38,8 @@ private:
     double kruskalAlgorithm(const vector<Vertex>&);
     Vertex dealOutOfBounds(Vertex,bool);
     void randGraph(int);
+    void getBounds(vector<pair<int,int>>);
+    void readGraph(vector<pair<int,int>>);
     void getHananPoints();
     //void getPointsBelong();
     void init();
@@ -61,6 +63,7 @@ private:
     vector<Edge> pointConnection;
 public:
     PSOAlgorithm(int,int,int);
+    PSOAlgorithm(int,int,vector<pair<int,int>>);
     void CoreAlgorithm();
     void PrintAlgorithmAns();
     void SetNearestAlgorithm(bool);
