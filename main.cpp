@@ -22,8 +22,8 @@ int main(){
     //PrintBFSAndAStar();
     //TestAStarRead();
     //PrintAStar();
-    //PrintKruAndPSO();
-    PrintPSO();
+    PrintKruAndPSO();
+    //PrintPSO();
     //PrintNearest();
 
     return 0;
@@ -102,7 +102,9 @@ void PrintKruAndPSO(){
     for(int i = 1; i <= calSum; ++i){
         double beginTime,useTime,kruAns,PSOAns,rate;
         beginTime = clock();
-        PSOAlgorithm method2(20,500,5);
+        int pointNum = 9;
+        int iter = max(100,pointNum * pointNum / 2);
+        PSOAlgorithm method2(pointNum * 2,iter,pointNum);
         method2.CoreAlgorithm();
         useTime = (clock() - beginTime) / 1000;
         averageTime += useTime;
@@ -121,7 +123,7 @@ void PrintKruAndPSO(){
     averageCost /= calSum;  averageTime /= calSum;
     averagePSO /= calSum;   averageKru /= calSum;
 
-    printf("\nKruskal:%d  PSO:%d\n",averageKru,averagePSO);
+    printf("\nKruskal:%d  PSO:%d 减少:%d\n",averageKru,averagePSO,averageKru - averagePSO);
     printf("\n平均时长:%lfms\n",averageTime);
     printf("平均消耗减少:%lf%%\n",averageCost * 100);
     

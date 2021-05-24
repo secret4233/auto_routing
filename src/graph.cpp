@@ -82,7 +82,7 @@ const Vertex *Graph::GetVertex(int graphVertex){
 }
 
 double CalDistance(const Vertex& x,const Vertex& y){
-    return abs(x.xAxis - y.xAxis) + abs(x.xAxis - y.yAxis); 
+    return abs(x.xAxis - y.xAxis) + abs(x.yAxis - y.yAxis); 
 }
 
 

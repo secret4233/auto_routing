@@ -33,13 +33,13 @@ private:
     double kruskalAns,algorithmAns;
     vector<Vertex> basicPoints; 
     vector<Vertex> hananPoints; // hanan点集合
-    int pointsBelong[200][200]; // 距离某点最近的hanan点
+    //int pointsBelong[200][200]; // 距离某点最近的hanan点
     bool useNewNearest;
     double kruskalAlgorithm(const vector<Vertex>&);
     Vertex dealOutOfBounds(Vertex,bool);
     void randGraph(int);
     void getHananPoints();
-    void getPointsBelong();
+    //void getPointsBelong();
     void init();
     // double calCost(const vector<Vertex>&);
     Vertex nearestPoint(int x,int y);
@@ -58,6 +58,7 @@ private:
     Matrix<double, Dynamic, Dynamic> fTest;             // 每次迭代,各个粒子求得的{y}
     Matrix<particleMessage, Dynamic, Dynamic> posMat;   // 每次迭代,各个粒子的最优解{x1,x2...}
 
+    vector<Edge> pointConnection;
 public:
     PSOAlgorithm(int,int,int);
     void CoreAlgorithm();
@@ -65,6 +66,7 @@ public:
     void SetNearestAlgorithm(bool);
     double GetKruskalAns();
     double GetPSOAns();
+    
 };
 
 

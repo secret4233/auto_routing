@@ -46,50 +46,50 @@ void PSOAlgorithm::getHananPoints(){
     return;
 }
 
-void PSOAlgorithm::getPointsBelong(){
-    memset(pointsBelong,-1,sizeof(pointsBelong));
-    int directionXAxis[10] = {1,-1,0,0};
-    int directionYAxis[10] = {0,0,1,-1};
-    queue<Vertex> q;
-    Vertex nowVertex,needToAdd;
-    for(int i = 0; i < hananPoints.size(); ++i){
-        nowVertex = hananPoints[i];
-        nowVertex.which = i;
-        q.push(nowVertex);
-        pointsBelong[(int)nowVertex.xAxis][(int)nowVertex.yAxis] = i;
-    } 
-    while(!q.empty()){
-        nowVertex = q.front();    q.pop();
-        for(int i = 0; i < 4; ++i){
-            int nowXAxis = nowVertex.xAxis + directionXAxis[i];
-            int nowYAxis = nowVertex.yAxis + directionYAxis[i];
+// void PSOAlgorithm::getPointsBelong(){
+//     memset(pointsBelong,-1,sizeof(pointsBelong));
+//     int directionXAxis[10] = {1,-1,0,0};
+//     int directionYAxis[10] = {0,0,1,-1};
+//     queue<Vertex> q;
+//     Vertex nowVertex,needToAdd;
+//     for(int i = 0; i < hananPoints.size(); ++i){
+//         nowVertex = hananPoints[i];
+//         nowVertex.which = i;
+//         q.push(nowVertex);
+//         pointsBelong[(int)nowVertex.xAxis][(int)nowVertex.yAxis] = i;
+//     } 
+//     while(!q.empty()){
+//         nowVertex = q.front();    q.pop();
+//         for(int i = 0; i < 4; ++i){
+//             int nowXAxis = nowVertex.xAxis + directionXAxis[i];
+//             int nowYAxis = nowVertex.yAxis + directionYAxis[i];
 
-            if(nowXAxis < 0 || nowXAxis >= 100 || nowYAxis < 0 || nowYAxis >= 100)  continue;
-            if(pointsBelong[nowXAxis][nowYAxis] != -1)  continue;
+//             if(nowXAxis < 0 || nowXAxis >= 100 || nowYAxis < 0 || nowYAxis >= 100)  continue;
+//             if(pointsBelong[nowXAxis][nowYAxis] != -1)  continue;
 
-            pointsBelong[nowXAxis][nowYAxis] = nowVertex.which;
+//             pointsBelong[nowXAxis][nowYAxis] = nowVertex.which;
 
-            needToAdd.which = nowVertex.which;
-            needToAdd.xAxis = (double)nowXAxis,needToAdd.yAxis = (double)nowYAxis;
-            q.push(needToAdd);
-        }
-    }
-    LogInfo("PSOAlgorithm getPointsBelong complete");
-    return;
-}
+//             needToAdd.which = nowVertex.which;
+//             needToAdd.xAxis = (double)nowXAxis,needToAdd.yAxis = (double)nowYAxis;
+//             q.push(needToAdd);
+//         }
+//     }
+//     LogInfo("PSOAlgorithm getPointsBelong complete");
+//     return;
+// }
+
+// Vertex PSOAlgorithm::nearestPoint(int x,int y){
+//     if(useNewNearest = 1){
+//         nearestPointNew(x,y);
+//     }
+//     int which = pointsBelong[x][y];
+//     if(which == -1 || which >= hananPoints.size()){
+//         LogError("nearestPoint error, xAxis:%d,yAxis:%d",x,y);
+//     }
+//     return hananPoints[which];
+// }
 
 Vertex PSOAlgorithm::nearestPoint(int x,int y){
-    if(useNewNearest = 1){
-        nearestPointNew(x,y);
-    }
-    int which = pointsBelong[x][y];
-    if(which == -1 || which >= hananPoints.size()){
-        LogError("nearestPoint error, xAxis:%d,yAxis:%d",x,y);
-    }
-    return hananPoints[which];
-}
-
-Vertex PSOAlgorithm::nearestPointNew(int x,int y){
     int which = 0,min = 1e9;
     Vertex tmp;
     tmp.xAxis = x,tmp.yAxis = y;
@@ -139,9 +139,11 @@ double PSOAlgorithm::kruskalAlgorithm(const vector<Vertex>& randPoints){
 
     class UNS dict;
     double nowAns = 0.0;
+    pointConnection.clear();
     for(auto it = allEdge.begin(); it !=  allEdge.end(); it++){
         if(!dict.IsSameFather(it->u,it->v)){
             dict.UnionPoint(it->u,it->v);
+            pointConnection.push_back(*it);
             nowAns += it->w;
         }
     }
@@ -156,7 +158,7 @@ void PSOAlgorithm::init(){
 
     pBest.clear();  pos.clear();    spd.clear();
     static mt19937 rng;
-    uniform_real_distribution<double> rand1(0,99);
+    uniform_real_distribution<double> rand1(0,posMax);
     // uniform_real_distribution<double> rand2(-99,99);
     for(int i = 0; i < pNum; ++i){ // 枚举所有粒子
         particleMessage posNeedToAdd,spdNeedToAdd;
@@ -188,11 +190,11 @@ void PSOAlgorithm::init(){
 
 //pNum:粒子数量,iters:迭代次数,randPointNum:随机点数量
 PSOAlgorithm::PSOAlgorithm(int _pNum,int _iters,int randPointNum):pNum(_pNum),iters(_iters){
-    spdMax = 100,spdMin = -100;
-    posMax = 100,posMin = -1;
+    spdMax = 10000,spdMin = -10000;
+    posMax = 10000,posMin = -1;
     randGraph(randPointNum);
     getHananPoints();
-    getPointsBelong();
+    //getPointsBelong();
     //init();
     vector<Vertex> tmp;
     kruskalAns = kruskalAlgorithm(tmp);
@@ -271,15 +273,31 @@ void PSOAlgorithm::CoreAlgorithm(){
     return;
 }
 
+
 void PSOAlgorithm::PrintAlgorithmAns(){
     printf("生成的随机点:\n");
     for(int i = 0; i < basicPoints.size(); ++i){
-        printf("随机点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)basicPoints[i].xAxis,(int)basicPoints[i].yAxis);
+        printf("给定点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)basicPoints[i].xAxis,(int)basicPoints[i].yAxis);
     }
 
-    printf("PSO算法最优结果使用的hanan点:\n");
+    printf("\nPSO算法添加的Hanan点:\n");
     for(int i = 0; i < gBest.UsefulNum; ++i){
         printf("hanan点%02d: x轴坐标:%02d,y轴坐标:%02d\n",i,(int)gBest[i].xAxis,(int)gBest[i].yAxis);
+    }
+    kruskalAlgorithm(gBest.GetUsefulMessage());
+
+    printf("\n");
+    for(int i = 0; i < pointConnection.size(); ++i){
+        int u = pointConnection[i].u;
+        int v = pointConnection[i].v;
+        if(u > v)   swap(u,v);
+        if(u >= basicPoints.size()) printf("Hanan点%d ",u - (int)basicPoints.size());
+        else                        printf("给定点%d ",u);
+        printf("<->");
+        if(v >= basicPoints.size()) printf(" Hanan点%d",v - (int)basicPoints.size());
+        else                        printf(" 给定点%d",v);
+        printf("\tw:%d:",(int)pointConnection[i].w);
+        printf("\n");   
     }
 
     printf("\nPSO算法求得得最小斯坦纳树的值:%lf\n",algorithmAns);
