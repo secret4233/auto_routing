@@ -17,6 +17,8 @@ void PrintAStarExample();
 void PrintPSO();
 void PrintPSOExample();
 
+void DealProblem();
+
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
@@ -27,6 +29,29 @@ int main(){
     //PrintPSO();
     //PrintPSOExample();
     //PrintAStarExample();
+    //DealProblem();
+    int which;
+    printf("选择输出内容：1.BFS和A*比较 2.Kruskal算法和PSO算法比较 3.解决实际问题\n");
+    cin >> which;
+    switch (which)
+    {
+    case 1:
+        PrintBFSAndAStar();
+        break;
+    case 2:
+        PrintKruAndPSO();
+        break;
+    case 3:
+        DealProblem();
+        break;
+    default:
+        printf("输入有误!!!");
+        break;
+    }
+    return 0;
+}
+
+void DealProblem(){
 
     int problem = 0;
     printf("\n问题类型：1.两点斯坦纳树问题 2.多点斯坦纳树问题\n");
@@ -69,8 +94,6 @@ int main(){
     }else{
         printf("输入错误！！");
     }
-
-    return 0;
 }
 
 
@@ -89,7 +112,7 @@ void PrintAStar(){
 }
 
 void PrintBFSAndAStar(){
-    int lineNum = 1800,calNum = 2;
+    int lineNum = 800,calNum = 1;
 
     double averageRate = 0;
     for(int i = 1; i <= calNum; ++i){
@@ -114,7 +137,7 @@ void PrintBFSAndAStar(){
         if(BFSAns != AStarAns){
             printf("Error:BFSAns:%d,AStarAns:%d\n",BFSAns,AStarAns);
         }
-        printf("\n第%d次:\n",i);
+        //printf("\n第%d次:\n",i);
         printf("BFS算法时间:%lfms，A*算法时间:%lfms\n",useTime[0],useTime[1]);
         printf("相对时间减少:%lf%%\n",rate * 100); 
         
@@ -122,8 +145,8 @@ void PrintBFSAndAStar(){
 }
 
 void PrintKruAndPSO(){
-    double averageTime,averageCost;
-    int averageKru,averagePSO;
+    double averageTime = 0,averageCost = 0;
+    int averageKru = 0,averagePSO = 0;
     printf("\n");
     const int calSum = 10;
     for(int i = 1; i <= calSum; ++i){

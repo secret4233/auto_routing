@@ -40,7 +40,7 @@ bool isInObstacle(int xAxis,int yAxis){
     for(int i = 0; i < obstacleNum; ++i){
         if(xAxis >= obstacleMessage[i][0].first && xAxis <= obstacleMessage[i][1].first
             && yAxis >= obstacleMessage[i][0].second && yAxis <= obstacleMessage[i][1].second){
-                LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
+                //LogDebug("xAxis:%d yAxis:%d  whichObstacle:%d",xAxis,yAxis,i);
                 return true;
             }
     }
