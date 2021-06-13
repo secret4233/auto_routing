@@ -134,9 +134,9 @@ void PrintBFSAndAStar(){
         averageRate += rate;
 
         //printf("start:%d,end:%d\n",start,end);
-        if(BFSAns != AStarAns){
-            printf("Error:BFSAns:%d,AStarAns:%d\n",BFSAns,AStarAns);
-        }
+        // if(BFSAns != AStarAns){
+        //     printf("Error:BFSAns:%d,AStarAns:%d\n",BFSAns,AStarAns);
+        // }
         //printf("\n第%d次:\n",i);
         printf("BFS算法时间:%lfms，A*算法时间:%lfms\n",useTime[0],useTime[1]);
         printf("相对时间减少:%lf%%\n",rate * 100); 
