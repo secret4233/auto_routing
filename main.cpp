@@ -13,42 +13,67 @@ void PrintKruAndPSO();
 void PrintNearest();
 void PrintAStar();
 void PrintBFSAndAStar();
-void TestAStarRead();
+void PrintAStarExample();
 void PrintPSO();
 void PrintPSOExample();
 
 int main(){
     LogUtils logger(ALL_LOG_LEVEL);
     srand(time(NULL));
+    //PrintNearest();
     //PrintBFSAndAStar();
-    //TestAStarRead();
     //PrintAStar();
     //PrintKruAndPSO();
-    PrintPSO();
-    //PrintNearest();
-    PrintPSOExample();
+    //PrintPSO();
+    //PrintPSOExample();
+    //PrintAStarExample();
+
+    int problem = 0;
+    printf("\n问题类型：1.两点斯坦纳树问题 2.多点斯坦纳树问题\n");
+    cin >> problem;
+    if(problem == 2){
+        int pointNum = 0;
+        vector<pair<int,int>> dict;
+        printf("给定点数量？\n");
+        cin >> pointNum;
+        for(int i = 0,x,y; i < pointNum; ++i){
+            cin >> x >> y;
+            dict.push_back(make_pair(x,y));
+        }
+        PSOAlgorithm method2(pointNum * 2,max(100,pointNum * pointNum),dict);
+        method2.CoreAlgorithm();
+        method2.PrintAlgorithmAns();
+        printf("\n");
+    }else if(problem == 1){
+        int startX,startY,endX,endY,obstacleNum,lineNum = 30;
+        vector<pair<int,int>> dict;
+
+        // printf("坐标范围?\n");
+        // cin >> lineNum; lineNum += 10;
+        printf("起点坐标？\n");
+        cin >> startX >> startY;
+        printf("终点坐标?\n");
+        cin >> endX >> endY;
+        printf("障碍物数量?\n");
+        cin >> obstacleNum;
+        for(int i = 0,x,y; i < obstacleNum * 2; ++i){
+            cin >> x >> y;
+            dict.push_back(make_pair(x,y));
+        }
+
+        AStar method1(lineNum * lineNum,dict);
+        int start = method1.GetGraphVertexNum(startX,startY);
+        int end = method1.GetGraphVertexNum(endX,endY);
+        method1.CoreAlgorithm(start,end);
+        method1.PrintPath(start,end);
+    }else{
+        printf("输入错误！！");
+    }
 
     return 0;
 }
 
 
-void TestAStarRead(){
-    int lineNum = 30;
-    vector<pair<int,int>> tmp;
-    tmp.push_back(make_pair(2,2));
-    tmp.push_back(make_pair(4,4));
-    tmp.push_back(make_pair(5,5));
-    tmp.push_back(make_pair(6,6));
-
-    AStar method1(lineNum * lineNum,tmp);
-    int start = method1.GetGraphVertexNum(rand()%lineNum,0);
-    int end = method1.GetGraphVertexNum(rand()%lineNum,lineNum-1);
-    double ans = method1.CoreAlgorithm(start,end);
-
-    printf("%d -> %d %lf\n",start,end,ans);
-    printf("start: x:%d,y:%d\n",start/lineNum,start%lineNum);
-    printf("end: x:%d,y:%d\n",end/lineNum,end%lineNum); 
-}
 
 void PrintAStar(){
     int lineNum = 50; 
@@ -189,4 +214,24 @@ void PrintPSOExample(){
 
     method2.PrintAlgorithmAns();
     printf("\n");
+}
+
+void PrintAStarExample(){
+    int lineNum = 30;
+    vector<pair<int,int>> tmp;
+    tmp.push_back(make_pair(1,2));
+    tmp.push_back(make_pair(2,3));
+    tmp.push_back(make_pair(2,0));
+    tmp.push_back(make_pair(3,3));
+
+    AStar method1(lineNum * lineNum,tmp);
+    int start = method1.GetGraphVertexNum(0,0);
+    int end = method1.GetGraphVertexNum(4,4);
+    double ans = method1.CoreAlgorithm(start,end);
+
+    method1.PrintPath(start,end);
+
+    // printf("%d -> %d %lf\n",start,end,ans);
+    // printf("start: x:%d,y:%d\n",start/lineNum,start%lineNum);
+    // printf("end: x:%d,y:%d\n",end/lineNum,end%lineNum); 
 }

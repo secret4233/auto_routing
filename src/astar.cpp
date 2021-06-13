@@ -189,6 +189,13 @@ double AStar::BFSAlgorithn(int start,int end){
 }
 
 void AStar::PrintPath(int start,int end){
+    printf("\n");
+    for(int i = 0; i < obstacleNum; ++i){
+        printf("障碍物%02d: 左下角坐标:(%d,%d),右上角坐标:(%d,%d)\n",
+            i,  obstacleMessage[i][0].first,obstacleMessage[i][0].second,
+                obstacleMessage[i][1].first,obstacleMessage[i][1].second);
+    }
+
     vector<pair<int,int>> path;
     int now = end;
     while(1){
@@ -200,10 +207,17 @@ void AStar::PrintPath(int start,int end){
         }
         now = vis[now];
     }
-    printf("\npath is:\n");
-    for(int i = path.size() - 1; i >= 0; --i){
-        printf("(%d %d)",path[i].first,path[i].second);
-        if(i != 0)  printf(" ->");
-        printf("\n");
+    printf("\n路径为:\n");
+    //打印开头
+    printf("(%d %d) ->\n",path[path.size()-1].first,path[path.size()-1].second);
+    for(int i = path.size() - 2; i >= 1; --i){
+        pair<int,int> now,nxt,from;
+        now = path[i],nxt = path[i - 1],from = path[i + 1];
+        // 相邻点坐标，x轴和y轴都存在不同值
+        if((now.first != nxt.first || now.first != from.first) && (now.second != nxt.second || now.second != from.second)){
+            printf("(%d %d)",path[i].first,path[i].second);
+            printf(" ->\n");
+        }
     }
+    printf("(%d %d)\n",path[0].first,path[0].second);
 }

@@ -3,7 +3,6 @@
 // 生成随机数量(10-20),位置不定(0-9999)的点
 // FIXME 注意去重
 void PSOAlgorithm::randGraph(int randPointNum){
-    //int randPointNum = 20;
 
     // 此处规定hanan点数量,为总随机点数-2
     maxHananNum = randPointNum - 2;
@@ -330,7 +329,7 @@ void PSOAlgorithm::PrintAlgorithmAns(){
         printf("<->");
         if(v >= basicPoints.size()) printf(" Hanan点%d",v - (int)basicPoints.size());
         else                        printf(" 给定点%d",v);
-        printf("\tw:%d:",(int)pointConnection[i].w);
+        printf("\t边的长度:%d:",(int)pointConnection[i].w);
         printf("\n");   
     }
 
